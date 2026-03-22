@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
     <head>
         <meta charset="UTF-8" />
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, user-scalable=no"
         />
-        <meta name="color-scheme" content="dark only" />
-        <meta name="theme-color" content="#0a0a1a" />
+        <meta name="color-scheme" content="dark light" />
+        <meta name="theme-color" content="#0a0f1a" id="metaThemeColor" />
         <link
             rel="apple-touch-icon"
             sizes="180x180"
@@ -35,30 +35,114 @@
             rel="stylesheet"
         />
         <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+        <script>
+            // Apply theme before first paint to prevent flash
+            (function() {
+                var saved = localStorage.getItem("theme");
+                var theme = saved || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+                document.documentElement.setAttribute("data-theme", theme);
+            })();
+        </script>
         <style>
             :root {
-                --primary: #a78bfa;
-                --primary-hover: #c4b5fd;
-                --primary-light: rgba(167, 139, 250, 0.15);
-                --primary-lighter: rgba(167, 139, 250, 0.08);
-                --primary-border: rgba(167, 139, 250, 0.3);
-                --surface: rgba(15, 15, 35, 0.85);
-                --surface-solid: #111128;
-                --bg: #0a0a1a;
-                --text: #e8e4f0;
-                --text-secondary: #9b95ab;
-                --text-muted: #6b6580;
-                --border: rgba(255, 255, 255, 0.08);
-                --border-light: rgba(255, 255, 255, 0.04);
-                --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-                --shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.4);
-                --shadow-lg: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
-                --shadow-btn: 0 8px 24px -18px rgba(0, 0, 0, 0.5);
-                --glow: 0 0 40px rgba(139, 92, 246, 0.15);
                 --radius: 16px;
                 --radius-lg: 24px;
                 --radius-sm: 12px;
                 --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            /* Dark theme (default) */
+            [data-theme="dark"] {
+                --primary: #22d3ee;
+                --primary-hover: #67e8f9;
+                --primary-light: rgba(34, 211, 238, 0.15);
+                --primary-lighter: rgba(34, 211, 238, 0.08);
+                --primary-border: rgba(34, 211, 238, 0.3);
+                --primary-gradient: linear-gradient(135deg, #0891b2, #0ea5e9);
+                --surface: rgba(10, 15, 30, 0.85);
+                --surface-solid: #0d1220;
+                --bg: #060a14;
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --text-muted: #64748b;
+                --border: var(--border);
+                --border-light: var(--border-light);
+                --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+                --shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.4);
+                --shadow-lg: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+                --shadow-btn: 0 8px 24px -18px rgba(0, 0, 0, 0.5);
+                --glow: 0 0 40px rgba(34, 211, 238, 0.1);
+                --star-color: rgba(200, 220, 255, 0.7);
+                --star-color-dim: rgba(200, 220, 255, 0.3);
+                --nebula-1: rgba(6, 182, 212, 0.15);
+                --nebula-2: rgba(14, 165, 233, 0.1);
+                --modal-bg: rgba(6, 10, 20, 0.85);
+                --toast-bg: rgba(8, 145, 178, 0.9);
+                --toast-shadow: rgba(6, 182, 212, 0.3);
+                --chip-active-bg: linear-gradient(135deg, #0891b2, #0ea5e9);
+                --icon-wrap-border: rgba(34, 211, 238, 0.25);
+                --icon-wrap-bg: rgba(34, 211, 238, 0.1);
+                --extra-btn-border: rgba(56, 189, 248, 0.2);
+                --extra-btn-bg: rgba(56, 189, 248, 0.08);
+                --extra-btn-color: #7dd3fc;
+                --step-number-shadow: rgba(6, 182, 212, 0.3);
+                --step-line-from: rgba(34, 211, 238, 0.3);
+                --step-line-to: rgba(34, 211, 238, 0.05);
+                --btn-primary-shadow: rgba(6, 182, 212, 0.3);
+                --btn-primary-shadow-hover: rgba(6, 182, 212, 0.45);
+                --qr-fab-border: rgba(34, 211, 238, 0.3);
+                --qr-fab-bg: rgba(10, 15, 30, 0.9);
+                --qr-fab-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 0 20px rgba(6,182,212,0.15);
+                --qr-fab-shadow-hover: 0 6px 24px rgba(0,0,0,0.4), 0 0 30px rgba(6,182,212,0.25);
+                --modal-box-shadow: 0 0 40px rgba(6, 182, 212, 0.1);
+                --heading-gradient: linear-gradient(135deg, #e0f2fe 0%, #67e8f9 40%, #38bdf8 100%);
+            }
+
+            /* Light theme */
+            [data-theme="light"] {
+                --primary: #0891b2;
+                --primary-hover: #0e7490;
+                --primary-light: rgba(8, 145, 178, 0.1);
+                --primary-lighter: rgba(8, 145, 178, 0.05);
+                --primary-border: rgba(8, 145, 178, 0.25);
+                --primary-gradient: linear-gradient(135deg, #0891b2, #0284c7);
+                --surface: rgba(255, 255, 255, 0.85);
+                --surface-solid: #ffffff;
+                --bg: #f0f4f8;
+                --text: #1e293b;
+                --text-secondary: #475569;
+                --text-muted: #94a3b8;
+                --border: rgba(0, 0, 0, 0.08);
+                --border-light: rgba(0, 0, 0, 0.04);
+                --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+                --shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.08);
+                --shadow-lg: 0 20px 60px -20px rgba(0, 0, 0, 0.12);
+                --shadow-btn: 0 8px 24px -18px rgba(0, 0, 0, 0.1);
+                --glow: 0 0 40px rgba(8, 145, 178, 0.06);
+                --star-color: rgba(8, 145, 178, 0.12);
+                --star-color-dim: rgba(8, 145, 178, 0.06);
+                --nebula-1: rgba(8, 145, 178, 0.06);
+                --nebula-2: rgba(14, 165, 233, 0.04);
+                --modal-bg: rgba(241, 245, 249, 0.9);
+                --toast-bg: rgba(8, 145, 178, 0.9);
+                --toast-shadow: rgba(8, 145, 178, 0.2);
+                --chip-active-bg: linear-gradient(135deg, #0891b2, #0284c7);
+                --icon-wrap-border: rgba(8, 145, 178, 0.2);
+                --icon-wrap-bg: rgba(8, 145, 178, 0.08);
+                --extra-btn-border: rgba(8, 145, 178, 0.15);
+                --extra-btn-bg: rgba(8, 145, 178, 0.06);
+                --extra-btn-color: #0e7490;
+                --step-number-shadow: rgba(8, 145, 178, 0.2);
+                --step-line-from: rgba(8, 145, 178, 0.2);
+                --step-line-to: rgba(8, 145, 178, 0.05);
+                --btn-primary-shadow: rgba(8, 145, 178, 0.2);
+                --btn-primary-shadow-hover: rgba(8, 145, 178, 0.35);
+                --qr-fab-border: rgba(8, 145, 178, 0.25);
+                --qr-fab-bg: rgba(255, 255, 255, 0.95);
+                --qr-fab-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 0 20px rgba(8,145,178,0.08);
+                --qr-fab-shadow-hover: 0 6px 24px rgba(0,0,0,0.12), 0 0 30px rgba(8,145,178,0.15);
+                --modal-box-shadow: 0 0 40px rgba(8, 145, 178, 0.06);
+                --heading-gradient: linear-gradient(135deg, #0c4a6e 0%, #0891b2 40%, #0ea5e9 100%);
             }
 
             * {
@@ -67,7 +151,7 @@
                 box-sizing: border-box;
             }
 
-            /* ---- Animated Cosmic Background ---- */
+            /* ---- Body ---- */
             body {
                 font-family:
                     "Inter",
@@ -85,95 +169,76 @@
                 -webkit-font-smoothing: antialiased;
                 overflow: hidden;
                 position: relative;
+                transition: background 0.3s ease, color 0.3s ease;
             }
 
-            /* Stars canvas */
-            #stars-canvas {
+            /* Static starfield background */
+            .stars-layer {
                 position: fixed;
                 inset: 0;
                 z-index: 0;
                 pointer-events: none;
             }
+            .stars-layer-1 {
+                background-image:
+                    radial-gradient(1.5px 1.5px at 10% 15%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 25% 35%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 40% 8%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 55% 45%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(2px 2px at 70% 20%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 85% 55%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 15% 65%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 35% 80%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(2px 2px at 60% 70%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 80% 85%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 92% 40%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 5% 90%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 48% 25%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 72% 60%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(2px 2px at 30% 50%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 95% 12%, var(--star-color-dim) 50%, transparent 50%);
+            }
+            .stars-layer-2 {
+                background-image:
+                    radial-gradient(1px 1px at 3% 22%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 18% 48%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 33% 12%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 52% 58%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 67% 32%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(2px 2px at 78% 75%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 88% 18%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 42% 88%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 58% 5%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 8% 72%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 22% 95%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(2px 2px at 45% 42%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 65% 88%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 82% 52%, var(--star-color) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 98% 68%, var(--star-color-dim) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 12% 38%, var(--star-color) 50%, transparent 50%);
+            }
 
-            /* Nebula glow layers */
+            /* Static nebula glows */
             .nebula {
                 position: fixed;
                 border-radius: 50%;
                 filter: blur(80px);
-                opacity: 0.3;
                 pointer-events: none;
                 z-index: 0;
             }
             .nebula-1 {
                 width: 500px;
                 height: 500px;
-                background: radial-gradient(
-                    circle,
-                    rgba(139, 92, 246, 0.4) 0%,
-                    transparent 70%
-                );
+                background: radial-gradient(circle, var(--nebula-1) 0%, transparent 70%);
                 top: -10%;
                 left: -10%;
-                animation: nebulaDrift1 20s ease-in-out infinite;
             }
             .nebula-2 {
                 width: 400px;
                 height: 400px;
-                background: radial-gradient(
-                    circle,
-                    rgba(59, 130, 246, 0.3) 0%,
-                    transparent 70%
-                );
+                background: radial-gradient(circle, var(--nebula-2) 0%, transparent 70%);
                 bottom: -10%;
                 right: -10%;
-                animation: nebulaDrift2 25s ease-in-out infinite;
-            }
-            .nebula-3 {
-                width: 300px;
-                height: 300px;
-                background: radial-gradient(
-                    circle,
-                    rgba(236, 72, 153, 0.2) 0%,
-                    transparent 70%
-                );
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                animation: nebulaDrift3 18s ease-in-out infinite;
-            }
-
-            @keyframes nebulaDrift1 {
-                0%,
-                100% {
-                    transform: translate(0, 0);
-                }
-                33% {
-                    transform: translate(60px, 40px);
-                }
-                66% {
-                    transform: translate(-30px, 60px);
-                }
-            }
-            @keyframes nebulaDrift2 {
-                0%,
-                100% {
-                    transform: translate(0, 0);
-                }
-                33% {
-                    transform: translate(-50px, -30px);
-                }
-                66% {
-                    transform: translate(40px, -50px);
-                }
-            }
-            @keyframes nebulaDrift3 {
-                0%,
-                100% {
-                    transform: translate(-50%, -50%) scale(1);
-                }
-                50% {
-                    transform: translate(-50%, -50%) scale(1.3);
-                }
             }
 
             /* ---- Card ---- */
@@ -184,8 +249,9 @@
                 backdrop-filter: blur(24px) saturate(1.4);
                 -webkit-backdrop-filter: blur(24px) saturate(1.4);
                 border-radius: var(--radius-lg);
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                box-shadow: var(--shadow-lg), var(--glow);
+                border: 1px solid var(--border);
+                box-shadow: var(--shadow-lg);
+                transition: background 0.3s ease, border-color 0.3s ease;
                 padding: 24px;
                 position: relative;
                 overflow: visible;
@@ -212,8 +278,8 @@
                 width: 52px;
                 height: 52px;
                 border-radius: 50%;
-                border: 1px solid rgba(167, 139, 250, 0.3);
-                background: rgba(15, 15, 35, 0.9);
+                border: 1px solid var(--qr-fab-border);
+                background: var(--qr-fab-bg);
                 backdrop-filter: blur(12px);
                 color: var(--primary);
                 cursor: pointer;
@@ -221,16 +287,12 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow:
-                    0 4px 16px rgba(0, 0, 0, 0.3),
-                    0 0 20px rgba(139, 92, 246, 0.15);
+                box-shadow: var(--qr-fab-shadow);
                 z-index: 50;
             }
             .qr-fab:hover {
                 transform: scale(1.08);
-                box-shadow:
-                    0 6px 24px rgba(0, 0, 0, 0.4),
-                    0 0 30px rgba(139, 92, 246, 0.25);
+                box-shadow: var(--qr-fab-shadow-hover);
             }
             .qr-fab:active {
                 transform: scale(0.95);
@@ -249,12 +311,7 @@
                 font-size: 22px;
                 font-weight: 700;
                 margin-bottom: 4px;
-                background: linear-gradient(
-                    135deg,
-                    #e0d4ff 0%,
-                    #c4b5fd 40%,
-                    #93c5fd 100%
-                );
+                background: var(--heading-gradient);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
@@ -300,8 +357,8 @@
             .device-btn {
                 width: 100%;
                 border-radius: var(--radius);
-                border: 1px solid rgba(255, 255, 255, 0.06);
-                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid var(--border-light);
+                background: var(--border-light);
                 transition: var(--transition);
                 padding: 18px 12px;
                 display: flex;
@@ -318,8 +375,8 @@
             }
             .device-btn:hover {
                 border-color: var(--primary-border);
-                background: rgba(167, 139, 250, 0.08);
-                box-shadow: 0 0 24px rgba(139, 92, 246, 0.12);
+                background: var(--primary-lighter);
+                box-shadow: var(--glow);
                 transform: translateY(-2px);
             }
             .device-btn:active {
@@ -332,8 +389,8 @@
                 display: grid;
                 place-items: center;
                 border-radius: var(--radius-sm);
-                border: 1px solid rgba(167, 139, 250, 0.25);
-                background: rgba(167, 139, 250, 0.1);
+                border: 1px solid var(--icon-wrap-border);
+                background: var(--icon-wrap-bg);
             }
             .device-btn .icon-wrap svg {
                 width: 22px;
@@ -357,15 +414,15 @@
             .separator {
                 margin: 20px 0;
                 border: none;
-                border-top: 1px solid rgba(255, 255, 255, 0.06);
+                border-top: 1px solid var(--border-light);
             }
 
             /* ---- Extra Device Button ---- */
             .extra-device-btn {
                 width: 100%;
                 border-radius: var(--radius);
-                border: 1px solid rgba(96, 165, 250, 0.2);
-                background: rgba(96, 165, 250, 0.08);
+                border: 1px solid var(--extra-btn-border);
+                background: var(--extra-btn-bg);
                 transition: var(--transition);
                 padding: 14px 20px;
                 display: flex;
@@ -375,11 +432,11 @@
                 cursor: pointer;
                 font-size: 14px;
                 font-weight: 500;
-                color: #93c5fd;
+                color: var(--extra-btn-color);
                 font-family: inherit;
             }
             .extra-device-btn:hover {
-                background: rgba(96, 165, 250, 0.15);
+                background: var(--primary-light);
             }
             .extra-device-btn svg {
                 width: 20px;
@@ -403,8 +460,8 @@
             .app-chip {
                 padding: 8px 16px;
                 border-radius: 100px;
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid var(--border);
+                background: var(--border-light);
                 outline: none;
                 overflow: hidden;
                 -webkit-appearance: none;
@@ -425,10 +482,9 @@
                 color: var(--text);
             }
             .app-chip.active {
-                background: linear-gradient(135deg, #7c3aed, #6366f1);
+                background: var(--chip-active-bg);
                 border-color: transparent;
                 color: white;
-
             }
             .app-chip .rec-star {
                 font-size: 10px;
@@ -469,14 +525,14 @@
                 width: 32px;
                 height: 32px;
                 border-radius: 50%;
-                background: linear-gradient(135deg, #7c3aed, #6366f1);
+                background: var(--primary-gradient);
                 color: white;
                 font-size: 13px;
                 font-weight: 700;
                 display: grid;
                 place-items: center;
                 flex-shrink: 0;
-                box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
+                box-shadow: 0 0 12px var(--step-number-shadow);
             }
 
             .step-line {
@@ -484,8 +540,8 @@
                 flex: 1;
                 background: linear-gradient(
                     to bottom,
-                    rgba(167, 139, 250, 0.3),
-                    rgba(167, 139, 250, 0.05)
+                    var(--step-line-from),
+                    var(--step-line-to)
                 );
                 margin-top: 8px;
                 border-radius: 1px;
@@ -538,12 +594,12 @@
             }
 
             .btn-primary {
-                background: linear-gradient(135deg, #7c3aed, #6366f1);
+                background: var(--primary-gradient);
                 color: white;
-                box-shadow: 0 2px 12px rgba(139, 92, 246, 0.3);
+                box-shadow: 0 2px 12px var(--btn-primary-shadow);
             }
             .btn-primary:hover {
-                box-shadow: 0 4px 20px rgba(139, 92, 246, 0.45);
+                box-shadow: 0 4px 20px var(--btn-primary-shadow-hover);
                 filter: brightness(1.1);
             }
             .btn-primary:active {
@@ -551,13 +607,13 @@
             }
 
             .btn-outline {
-                background: rgba(255, 255, 255, 0.04);
+                background: var(--border-light);
                 color: var(--text);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid var(--border);
             }
             .btn-outline:hover {
                 border-color: var(--primary-border);
-                background: rgba(167, 139, 250, 0.1);
+                background: var(--primary-light);
                 color: var(--primary);
             }
 
@@ -577,7 +633,7 @@
                 position: fixed;
                 inset: 0;
                 height: 100dvh;
-                background: rgba(5, 5, 20, 0.8);
+                background: var(--modal-bg);
                 backdrop-filter: blur(16px);
                 -webkit-backdrop-filter: blur(16px);
                 z-index: 1000;
@@ -601,15 +657,15 @@
             }
 
             .modal-box {
-                background: rgba(15, 15, 35, 0.95);
+                background: var(--surface);
                 backdrop-filter: blur(24px);
                 border-radius: var(--radius-lg);
                 max-width: 360px;
                 width: 100%;
                 box-shadow:
                     var(--shadow-lg),
-                    0 0 40px rgba(139, 92, 246, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.08);
+                    var(--modal-box-shadow);
+                border: 1px solid var(--border);
                 animation: modalIn 0.3s ease;
                 overflow: hidden;
             }
@@ -640,7 +696,7 @@
                 height: 32px;
                 border-radius: 50%;
                 border: none;
-                background: rgba(255, 255, 255, 0.06);
+                background: var(--border-light);
                 color: var(--text-secondary);
                 cursor: pointer;
                 display: grid;
@@ -649,7 +705,7 @@
                 font-size: 18px;
             }
             .modal-close:hover {
-                background: rgba(255, 255, 255, 0.12);
+                background: var(--border);
             }
             .modal-body {
                 padding: 20px;
@@ -679,7 +735,7 @@
                 bottom: 24px;
                 left: 50%;
                 transform: translateX(-50%) translateY(80px);
-                background: rgba(167, 139, 250, 0.9);
+                background: var(--toast-bg);
                 backdrop-filter: blur(8px);
                 color: white;
                 padding: 10px 20px;
@@ -689,7 +745,7 @@
                 z-index: 2000;
                 transition: transform 0.3s ease;
                 pointer-events: none;
-                box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+                box-shadow: 0 4px 16px var(--toast-shadow);
             }
             .toast.show {
                 transform: translateX(-50%) translateY(0);
@@ -714,8 +770,8 @@
             .info-collapse {
                 margin-bottom: 20px;
                 border-radius: var(--radius-sm);
-                border: 1px solid rgba(255, 255, 255, 0.06);
-                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid var(--border-light);
+                background: var(--border-light);
                 overflow: hidden;
             }
             .info-collapse-toggle {
@@ -801,6 +857,42 @@
                 color: #f87171;
             }
 
+            /* ---- Theme Toggle ---- */
+            .theme-toggle {
+                position: fixed;
+                top: 16px;
+                right: 16px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 1px solid var(--border);
+                background: var(--surface);
+                backdrop-filter: blur(12px);
+                color: var(--text-secondary);
+                cursor: pointer;
+                display: grid;
+                place-items: center;
+                z-index: 100;
+                transition: var(--transition);
+            }
+            .theme-toggle:hover {
+                color: var(--primary);
+                border-color: var(--primary-border);
+            }
+            .theme-toggle svg {
+                width: 20px;
+                height: 20px;
+            }
+            .theme-toggle .icon-sun,
+            .theme-toggle .icon-moon {
+                position: absolute;
+                transition: opacity 0.2s ease, transform 0.2s ease;
+            }
+            [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: scale(1); }
+            [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: scale(0.6); }
+            [data-theme="light"] .theme-toggle .icon-sun { opacity: 0; transform: scale(0.6); }
+            [data-theme="light"] .theme-toggle .icon-moon { opacity: 1; transform: scale(1); }
+
             /* ---- Responsive ---- */
             @media (max-width: 460px) {
                 body {
@@ -837,11 +929,21 @@
         </style>
     </head>
     <body>
-        <!-- Cosmic Background -->
-        <canvas id="stars-canvas"></canvas>
+        <!-- Static Cosmic Background -->
+        <div class="stars-layer stars-layer-1"></div>
+        <div class="stars-layer stars-layer-2"></div>
         <div class="nebula nebula-1"></div>
         <div class="nebula nebula-2"></div>
-        <div class="nebula nebula-3"></div>
+
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="themeToggle" title="Сменить тему">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+            </svg>
+        </button>
 
         <div class="card" id="mainCard">
             <div id="app"></div>
@@ -1522,112 +1624,39 @@
             render();
 
             // ============================================================
-            // ANIMATED STARFIELD
+            // THEME
             // ============================================================
             (function () {
-                const canvas = document.getElementById("stars-canvas");
-                const ctx = canvas.getContext("2d");
-                let stars = [];
-                let shootingStars = [];
-                const STAR_COUNT = 200;
-                const SHOOTING_INTERVAL = 4000;
-
-                function resize() {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
+                function getSystemTheme() {
+                    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
                 }
 
-                function createStars() {
-                    stars = [];
-                    for (let i = 0; i < STAR_COUNT; i++) {
-                        stars.push({
-                            x: Math.random() * canvas.width,
-                            y: Math.random() * canvas.height,
-                            r: Math.random() * 1.5 + 0.3,
-                            alpha: Math.random() * 0.8 + 0.2,
-                            twinkleSpeed: Math.random() * 0.02 + 0.005,
-                            twinkleOffset: Math.random() * Math.PI * 2,
-                        });
+                function applyTheme(theme) {
+                    document.documentElement.setAttribute("data-theme", theme);
+                    const metaColor = document.getElementById("metaThemeColor");
+                    if (metaColor) {
+                        metaColor.content = theme === "dark" ? "#060a14" : "#f0f4f8";
                     }
                 }
 
-                function spawnShootingStar() {
-                    shootingStars.push({
-                        x: Math.random() * canvas.width * 0.7,
-                        y: Math.random() * canvas.height * 0.4,
-                        len: Math.random() * 60 + 40,
-                        speed: Math.random() * 6 + 4,
-                        alpha: 1,
-                        angle: Math.PI / 4 + (Math.random() - 0.5) * 0.3,
-                    });
-                }
+                // Init: use saved preference or system default
+                const saved = localStorage.getItem("theme");
+                applyTheme(saved || getSystemTheme());
 
-                let lastTime = 0;
-                function animate(time) {
-                    const dt = (time - lastTime) / 16;
-                    lastTime = time;
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                    // Stars
-                    for (const s of stars) {
-                        const twinkle = Math.sin(
-                            time * s.twinkleSpeed + s.twinkleOffset,
-                        );
-                        const a = s.alpha * (0.6 + 0.4 * twinkle);
-                        ctx.beginPath();
-                        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(200,180,255,${a})`;
-                        ctx.fill();
+                // Listen for system theme changes (only if no manual override)
+                window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
+                    if (!localStorage.getItem("theme")) {
+                        applyTheme(getSystemTheme());
                     }
-
-                    // Shooting stars
-                    for (let i = shootingStars.length - 1; i >= 0; i--) {
-                        const ss = shootingStars[i];
-                        ss.x += Math.cos(ss.angle) * ss.speed * dt;
-                        ss.y += Math.sin(ss.angle) * ss.speed * dt;
-                        ss.alpha -= 0.008 * dt;
-
-                        if (ss.alpha <= 0) {
-                            shootingStars.splice(i, 1);
-                            continue;
-                        }
-
-                        const tailX = ss.x - Math.cos(ss.angle) * ss.len;
-                        const tailY = ss.y - Math.sin(ss.angle) * ss.len;
-                        const grad = ctx.createLinearGradient(
-                            tailX,
-                            tailY,
-                            ss.x,
-                            ss.y,
-                        );
-                        grad.addColorStop(0, `rgba(167,139,250,0)`);
-                        grad.addColorStop(1, `rgba(200,180,255,${ss.alpha})`);
-                        ctx.beginPath();
-                        ctx.moveTo(tailX, tailY);
-                        ctx.lineTo(ss.x, ss.y);
-                        ctx.strokeStyle = grad;
-                        ctx.lineWidth = 1.5;
-                        ctx.stroke();
-
-                        // Head glow
-                        ctx.beginPath();
-                        ctx.arc(ss.x, ss.y, 2, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(255,255,255,${ss.alpha * 0.8})`;
-                        ctx.fill();
-                    }
-
-                    requestAnimationFrame(animate);
-                }
-
-                resize();
-                createStars();
-                window.addEventListener("resize", () => {
-                    resize();
-                    createStars();
                 });
-                setInterval(spawnShootingStar, SHOOTING_INTERVAL);
-                setTimeout(spawnShootingStar, 1000);
-                requestAnimationFrame(animate);
+
+                // Toggle button
+                document.getElementById("themeToggle").addEventListener("click", () => {
+                    const current = document.documentElement.getAttribute("data-theme");
+                    const next = current === "dark" ? "light" : "dark";
+                    localStorage.setItem("theme", next);
+                    applyTheme(next);
+                });
             })();
         </script>
     </body>
