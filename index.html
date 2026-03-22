@@ -430,16 +430,15 @@
                 color: white;
 
             }
-            .app-chip .rec-dot {
-                width: 6px;
-                height: 6px;
-                border-radius: 50%;
-                background: #fbbf24;
-                box-shadow: 0 0 6px rgba(251, 191, 36, 0.5);
+            .app-chip .rec-star {
+                font-size: 10px;
+                line-height: 1;
+                color: #fbbf24;
+                text-shadow: 0 0 6px rgba(251, 191, 36, 0.5);
             }
-            .app-chip.active .rec-dot {
-                background: white;
-                box-shadow: none;
+            .app-chip.active .rec-star {
+                color: white;
+                text-shadow: none;
             }
 
             /* ---- Steps ---- */
@@ -926,6 +925,7 @@
                         {
                             name: "Happ",
                             recommended: true,
+                            info: "Современный и удобный клиент с минималистичным интерфейсом. Автоматически подбирает лучший сервер и поддерживает быстрый импорт подписки.",
                             downloadLinks: [
                                 { label: "App Store (РФ)", url: "itms-apps://apps.apple.com/app/id6746188973" },
                                 { label: "App Store (другие)", url: "itms-apps://apps.apple.com/app/id6504287215" },
@@ -946,6 +946,7 @@
                         },
                         {
                             name: "v2rayTun",
+                            info: "Проверенный клиент с расширенными настройками маршрутизации. Подходит для опытных пользователей, которым нужен больший контроль.",
                             downloadUrl: "itms-apps://apps.apple.com/app/id6476628951",
                             importUrl: "v2rayTun://import/{{SUB_URL}}",
                             steps: [
@@ -1344,7 +1345,7 @@
                     platform.apps.forEach((a, i) => {
                         const active = i === currentAppIndex ? " active" : "";
                         const dot = a.recommended
-                            ? '<span class="rec-dot"></span>'
+                            ? '<span class="rec-star">★</span>'
                             : "";
                         html += `<span class="app-chip${active}" onclick="switchApp(${i})" role="button" tabindex="0">${dot}${esc(a.name)}</span>`;
                     });
