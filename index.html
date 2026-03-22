@@ -37,9 +37,13 @@
         <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
         <script>
             // Apply theme before first paint to prevent flash
-            (function() {
+            (function () {
                 var saved = localStorage.getItem("theme");
-                var theme = saved || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+                var theme =
+                    saved ||
+                    (window.matchMedia("(prefers-color-scheme: light)").matches
+                        ? "light"
+                        : "dark");
                 document.documentElement.setAttribute("data-theme", theme);
             })();
         </script>
@@ -62,9 +66,18 @@
                 --surface: rgba(10, 15, 30, 0.85);
                 --surface-solid: #0d1220;
                 --bg: #060a14;
-                --bg-gradient: radial-gradient(ellipse at 20% 0%, rgba(6, 182, 212, 0.08) 0%, transparent 60%),
-                              radial-gradient(ellipse at 80% 100%, rgba(14, 165, 233, 0.06) 0%, transparent 60%),
-                              #060a14;
+                --bg-gradient:
+                    radial-gradient(
+                        ellipse at 20% 0%,
+                        rgba(6, 182, 212, 0.08) 0%,
+                        transparent 60%
+                    ),
+                    radial-gradient(
+                        ellipse at 80% 100%,
+                        rgba(14, 165, 233, 0.06) 0%,
+                        transparent 60%
+                    ),
+                    #060a14;
                 --text: #e2e8f0;
                 --text-secondary: #94a3b8;
                 --text-muted: #64748b;
@@ -91,10 +104,19 @@
                 --btn-primary-shadow-hover: rgba(6, 182, 212, 0.45);
                 --qr-fab-border: rgba(34, 211, 238, 0.3);
                 --qr-fab-bg: rgba(10, 15, 30, 0.9);
-                --qr-fab-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 0 20px rgba(6,182,212,0.15);
-                --qr-fab-shadow-hover: 0 6px 24px rgba(0,0,0,0.4), 0 0 30px rgba(6,182,212,0.25);
+                --qr-fab-shadow:
+                    0 4px 16px rgba(0, 0, 0, 0.3),
+                    0 0 20px rgba(6, 182, 212, 0.15);
+                --qr-fab-shadow-hover:
+                    0 6px 24px rgba(0, 0, 0, 0.4),
+                    0 0 30px rgba(6, 182, 212, 0.25);
                 --modal-box-shadow: 0 0 40px rgba(6, 182, 212, 0.1);
-                --heading-gradient: linear-gradient(135deg, #e0f2fe 0%, #67e8f9 40%, #38bdf8 100%);
+                --heading-gradient: linear-gradient(
+                    135deg,
+                    #e0f2fe 0%,
+                    #67e8f9 40%,
+                    #38bdf8 100%
+                );
                 --danger-bg: rgba(239, 68, 68, 0.1);
                 --danger-border: rgba(239, 68, 68, 0.25);
                 --danger-color: #f87171;
@@ -112,9 +134,18 @@
                 --surface: rgba(255, 255, 255, 0.85);
                 --surface-solid: #ffffff;
                 --bg: #f0f4f8;
-                --bg-gradient: radial-gradient(ellipse at 20% 0%, rgba(8, 145, 178, 0.06) 0%, transparent 60%),
-                              radial-gradient(ellipse at 80% 100%, rgba(14, 165, 233, 0.04) 0%, transparent 60%),
-                              #f0f4f8;
+                --bg-gradient:
+                    radial-gradient(
+                        ellipse at 20% 0%,
+                        rgba(8, 145, 178, 0.06) 0%,
+                        transparent 60%
+                    ),
+                    radial-gradient(
+                        ellipse at 80% 100%,
+                        rgba(14, 165, 233, 0.04) 0%,
+                        transparent 60%
+                    ),
+                    #f0f4f8;
                 --text: #1e293b;
                 --text-secondary: #475569;
                 --text-muted: #94a3b8;
@@ -141,10 +172,19 @@
                 --btn-primary-shadow-hover: rgba(8, 145, 178, 0.35);
                 --qr-fab-border: rgba(8, 145, 178, 0.25);
                 --qr-fab-bg: rgba(255, 255, 255, 0.95);
-                --qr-fab-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 0 20px rgba(8,145,178,0.08);
-                --qr-fab-shadow-hover: 0 6px 24px rgba(0,0,0,0.12), 0 0 30px rgba(8,145,178,0.15);
+                --qr-fab-shadow:
+                    0 4px 16px rgba(0, 0, 0, 0.08),
+                    0 0 20px rgba(8, 145, 178, 0.08);
+                --qr-fab-shadow-hover:
+                    0 6px 24px rgba(0, 0, 0, 0.12),
+                    0 0 30px rgba(8, 145, 178, 0.15);
                 --modal-box-shadow: 0 0 40px rgba(8, 145, 178, 0.06);
-                --heading-gradient: linear-gradient(135deg, #0c4a6e 0%, #0891b2 40%, #0ea5e9 100%);
+                --heading-gradient: linear-gradient(
+                    135deg,
+                    #0c4a6e 0%,
+                    #0891b2 40%,
+                    #0ea5e9 100%
+                );
                 --danger-bg: rgba(239, 68, 68, 0.08);
                 --danger-border: rgba(220, 38, 38, 0.2);
                 --danger-color: #dc2626;
@@ -175,7 +215,9 @@
                 -webkit-font-smoothing: antialiased;
                 overflow: hidden;
                 position: relative;
-                transition: background 0.3s ease, color 0.3s ease;
+                transition:
+                    background 0.3s ease,
+                    color 0.3s ease;
             }
 
             /* ---- Card ---- */
@@ -188,7 +230,9 @@
                 border-radius: var(--radius-lg);
                 border: 1px solid var(--border);
                 box-shadow: var(--shadow-lg);
-                transition: background 0.3s ease, border-color 0.3s ease;
+                transition:
+                    background 0.3s ease,
+                    border-color 0.3s ease;
                 padding: 24px;
                 position: relative;
                 overflow: visible;
@@ -575,9 +619,7 @@
                 border-radius: var(--radius-lg);
                 max-width: 360px;
                 width: 100%;
-                box-shadow:
-                    var(--shadow-lg),
-                    var(--modal-box-shadow);
+                box-shadow: var(--shadow-lg), var(--modal-box-shadow);
                 border: 1px solid var(--border);
                 animation: modalIn 0.3s ease;
                 overflow: hidden;
@@ -800,8 +842,14 @@
                 flex-shrink: 0;
             }
             @keyframes fadeSlideIn {
-                from { opacity: 0; transform: translateY(8px); }
-                to { opacity: 1; transform: none; }
+                from {
+                    opacity: 0;
+                    transform: translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
             }
 
             /* ---- Theme Toggle ---- */
@@ -833,12 +881,26 @@
             .theme-toggle .icon-sun,
             .theme-toggle .icon-moon {
                 position: absolute;
-                transition: opacity 0.2s ease, transform 0.2s ease;
+                transition:
+                    opacity 0.2s ease,
+                    transform 0.2s ease;
             }
-            [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: scale(1); }
-            [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: scale(0.6); }
-            [data-theme="light"] .theme-toggle .icon-sun { opacity: 0; transform: scale(0.6); }
-            [data-theme="light"] .theme-toggle .icon-moon { opacity: 1; transform: scale(1); }
+            [data-theme="dark"] .theme-toggle .icon-sun {
+                opacity: 1;
+                transform: scale(1);
+            }
+            [data-theme="dark"] .theme-toggle .icon-moon {
+                opacity: 0;
+                transform: scale(0.6);
+            }
+            [data-theme="light"] .theme-toggle .icon-sun {
+                opacity: 0;
+                transform: scale(0.6);
+            }
+            [data-theme="light"] .theme-toggle .icon-moon {
+                opacity: 1;
+                transform: scale(1);
+            }
 
             /* ---- Responsive ---- */
             @media (max-width: 460px) {
@@ -878,11 +940,35 @@
     <body>
         <!-- Theme Toggle -->
         <button class="theme-toggle" id="themeToggle" title="Сменить тему">
-            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            <svg
+                class="icon-sun"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
             </svg>
-            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+            <svg
+                class="icon-moon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
             </svg>
         </button>
 
@@ -922,10 +1008,31 @@
                 <div class="modal-body">
                     <div class="qr-wrap">
                         <div id="qrCode"></div>
-                        <p class="qr-hint">Отсканируйте код на другом устройстве для перехода на эту страницу, либо для добавления подписки сразу в приложение</p>
+                        <p class="qr-hint">
+                            Отсканируйте код на другом устройстве для перехода
+                            на эту страницу, либо для добавления подписки сразу
+                            в приложение
+                        </p>
                     </div>
-                    <button class="btn btn-outline" style="width:100%;margin-top:16px" onclick="copySubUrl()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    <button
+                        class="btn btn-outline"
+                        style="width: 100%; margin-top: 16px"
+                        onclick="copySubUrl()"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            style="width: 18px; height: 18px"
+                        >
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path
+                                d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
+                            />
+                        </svg>
                         Скопировать ссылку
                     </button>
                 </div>
@@ -937,13 +1044,32 @@
             <div class="modal-box">
                 <div class="modal-header">
                     <span class="modal-title">Нужна помощь?</span>
-                    <button class="modal-close" onclick="closeModal('supportModal')">
+                    <button
+                        class="modal-close"
+                        onclick="closeModal('supportModal')"
+                    >
                         &times;
                     </button>
                 </div>
-                <div class="modal-body" style="text-align:center">
-                    <p style="margin:0 0 16px;font-size:15px;color:var(--text-secondary);line-height:1.5">Мы всегда на связи и готовы помочь! Напишите нам в поддержку, и мы решим любой вопрос.</p>
-                    <a href="https://t.me/quazar_support" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center">
+                <div class="modal-body" style="text-align: center">
+                    <p
+                        style="
+                            margin: 0 0 16px;
+                            font-size: 15px;
+                            color: var(--text-secondary);
+                            line-height: 1.5;
+                        "
+                    >
+                        Мы всегда на связи и готовы помочь! Напишите нам в
+                        поддержку, и мы решим любой вопрос.
+                    </p>
+                    <a
+                        href="https://t.me/quazar_support"
+                        target="_blank"
+                        rel="noopener"
+                        class="btn btn-primary"
+                        style="width: 100%; justify-content: center"
+                    >
                         Написать в поддержку
                     </a>
                 </div>
@@ -993,8 +1119,14 @@
                             name: "Happ",
                             recommended: true,
                             downloadLinks: [
-                                { label: "App Store (РФ)", url: "itms-apps://apps.apple.com/app/id6746188973" },
-                                { label: "App Store (другие)", url: "itms-apps://apps.apple.com/app/id6504287215" },
+                                {
+                                    label: "App Store (РФ)",
+                                    url: "itms-apps://apps.apple.com/app/id6746188973",
+                                },
+                                {
+                                    label: "App Store (другие)",
+                                    url: "itms-apps://apps.apple.com/app/id6504287215",
+                                },
                             ],
                             importUrl: "happ://add/{{SUB_URL}}",
                             steps: [
@@ -1012,7 +1144,8 @@
                         },
                         {
                             name: "v2rayTun",
-                            downloadUrl: "itms-apps://apps.apple.com/app/id6476628951",
+                            downloadUrl:
+                                "itms-apps://apps.apple.com/app/id6476628951",
                             importUrl: "v2rayTun://import/{{SUB_URL}}",
                             steps: [
                                 {
@@ -1083,50 +1216,39 @@
                     showAppInfo: true,
                     apps: [
                         {
-                            name: "Hiddify",
+                            name: "Happ",
                             recommended: true,
                             downloadUrl:
-                                "https://github.com/hiddify/hiddify-app/releases/latest",
-                            importUrl: "hiddify://import/{{SUB_URL}}",
+                                "https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x64.exe",
+                            importUrl: "happ://add/{{SUB_URL}}",
                             steps: [
                                 {
-                                    title: "Установите Hiddify",
-                                    desc: "Скачайте последнюю версию с GitHub",
+                                    title: "Установите Happ",
+                                    desc: "Скачайте и установите приложение",
                                     action: "download",
                                 },
                                 {
-                                    title: "Добавьте подписку",
-                                    desc: "Нажмите кнопку для автоматического импорта",
-                                    action: "import",
-                                },
-                                {
                                     title: "Подключайтесь!",
-                                    desc: "Нажмите кнопку подключения в приложении",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
                                 },
                             ],
                         },
                         {
-                            name: "v2rayN",
+                            name: "v2rayTun",
                             downloadUrl:
-                                "https://github.com/2dust/v2rayN/releases/latest",
+                                "https://storage.v2raytun.com/v2RayTun_Setup.exe",
+                            importUrl: "v2rayTun://import/{{SUB_URL}}",
                             steps: [
                                 {
-                                    title: "Установите v2rayN",
-                                    desc: "Скачайте последнюю версию с GitHub",
+                                    title: "Установите v2rayTun",
+                                    desc: "Скачайте и установите приложение",
                                     action: "download",
                                 },
                                 {
-                                    title: "Скопируйте ссылку",
-                                    desc: "Скопируйте ссылку подписки",
-                                    action: "copy",
-                                },
-                                {
-                                    title: "Добавьте подписку",
-                                    desc: "Подписки → Добавить подписку → Вставьте ссылку → Обновите",
-                                },
-                                {
                                     title: "Подключайтесь!",
-                                    desc: "Выберите сервер и нажмите «Запустить»",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
                                 },
                             ],
                         },
@@ -1447,8 +1569,11 @@
                     if (step.action) {
                         html += '<div class="btn-group">';
                         if (step.action === "download") {
-                            if (app.downloadLinks && app.downloadLinks.length > 0) {
-                                app.downloadLinks.forEach(dl => {
+                            if (
+                                app.downloadLinks &&
+                                app.downloadLinks.length > 0
+                            ) {
+                                app.downloadLinks.forEach((dl) => {
                                     html += `<a href="${esc(dl.url)}" target="_blank" rel="noopener" class="btn btn-primary">${ICONS.download} ${esc(dl.label)}</a>`;
                                 });
                             } else if (app.downloadUrl) {
@@ -1471,7 +1596,7 @@
 
                         // Direct APK download link
                         if (step.action === "download" && app.directApkUrl) {
-                            html += `<div class="direct-download">Нет доступа к магазину приложений? <a href="${esc(app.directApkUrl)}" target="_blank" rel="noopener">Скачать напрямую</a></div>`;
+                            html += `<div class="direct-download">Нет доступа к магазину приложений?</br><a href="${esc(app.directApkUrl)}" target="_blank" rel="noopener">Скачать напрямую</a></div>`;
                         }
                     }
 
@@ -1621,14 +1746,18 @@
             // ============================================================
             (function () {
                 function getSystemTheme() {
-                    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+                    return window.matchMedia("(prefers-color-scheme: light)")
+                        .matches
+                        ? "light"
+                        : "dark";
                 }
 
                 function applyTheme(theme) {
                     document.documentElement.setAttribute("data-theme", theme);
                     const metaColor = document.getElementById("metaThemeColor");
                     if (metaColor) {
-                        metaColor.content = theme === "dark" ? "#060a14" : "#f0f4f8";
+                        metaColor.content =
+                            theme === "dark" ? "#060a14" : "#f0f4f8";
                     }
                 }
 
@@ -1637,19 +1766,24 @@
                 applyTheme(saved || getSystemTheme());
 
                 // Listen for system theme changes (only if no manual override)
-                window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
-                    if (!localStorage.getItem("theme")) {
-                        applyTheme(getSystemTheme());
-                    }
-                });
+                window
+                    .matchMedia("(prefers-color-scheme: light)")
+                    .addEventListener("change", () => {
+                        if (!localStorage.getItem("theme")) {
+                            applyTheme(getSystemTheme());
+                        }
+                    });
 
                 // Toggle button
-                document.getElementById("themeToggle").addEventListener("click", () => {
-                    const current = document.documentElement.getAttribute("data-theme");
-                    const next = current === "dark" ? "light" : "dark";
-                    localStorage.setItem("theme", next);
-                    applyTheme(next);
-                });
+                document
+                    .getElementById("themeToggle")
+                    .addEventListener("click", () => {
+                        const current =
+                            document.documentElement.getAttribute("data-theme");
+                        const next = current === "dark" ? "light" : "dark";
+                        localStorage.setItem("theme", next);
+                        applyTheme(next);
+                    });
             })();
         </script>
     </body>
