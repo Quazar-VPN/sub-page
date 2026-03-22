@@ -815,29 +815,30 @@
             /* ---- Support Button ---- */
             .sub-help-btn {
                 width: 100%;
-                border: none;
-                background: none;
-                cursor: pointer;
-                font-size: 13px;
-                font-weight: 500;
-                color: var(--text-secondary);
-                font-family: inherit;
-                margin-top: 10px;
-                padding: 8px;
+                border-radius: var(--radius);
+                border: 1px solid var(--extra-btn-border);
+                background: var(--extra-btn-bg);
+                transition: var(--transition);
+                padding: 14px 20px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 6px;
+                gap: 10px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--extra-btn-color);
+                font-family: inherit;
+                margin-top: 10px;
                 text-decoration: none;
                 animation: fadeSlideIn 0.4s ease;
-                transition: var(--transition);
             }
             .sub-help-btn:hover {
-                color: var(--text-primary);
+                background: var(--primary-light);
             }
             .sub-help-btn svg {
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
                 flex-shrink: 0;
             }
             .support-btn {
@@ -1125,12 +1126,12 @@
                         "
                     >
                         Если подписка не добавилась в установленное приложение
-                        автоматически — нажмите кнопку «Скопировать подписку»
+                        автоматически — нажмите кнопку «Скопировать ссылку»
                         ниже и вставьте подписку в приложение вручную.
                     </p>
                     <button
-                        class="btn btn-primary"
-                        style="width: 100%; justify-content: center"
+                        class="btn btn-outline"
+                        style="width: 100%; margin-top: 16px"
                         onclick="copySubUrl()"
                     >
                         <svg
@@ -1147,7 +1148,7 @@
                                 d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
                             />
                         </svg>
-                        Скопировать подписку
+                        Скопировать ссылку
                     </button>
                 </div>
             </div>
