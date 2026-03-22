@@ -1652,9 +1652,6 @@
                                 );
                                 html += `<a href="${esc(importLink)}" class="btn btn-primary" onclick="onImportClick()">${ICONS.import} Подключить</a>`;
                             }
-                            if (showSubHelp) {
-                                html += `<button class="sub-help-btn" onclick="showSubHelpModal()">${ICONS.info} Подписка не добавляется?</button>`;
-                            }
                         }
                         if (step.action === "copy") {
                             html += `<button class="btn btn-primary" onclick="copySubUrl()">${ICONS.copy} Скопировать ссылку</button>`;
@@ -1670,6 +1667,11 @@
                     html += "</div></div>";
                 });
                 html += "</div>";
+
+                // Sub help button (appears after import click + 5s delay)
+                if (showSubHelp) {
+                    html += `<button class="sub-help-btn" onclick="showSubHelpModal()">${ICONS.info} Подписка не добавляется?</button>`;
+                }
 
                 // Extra device button
                 html += '<hr class="separator">';
