@@ -1260,47 +1260,47 @@
                     showAppInfo: true,
                     apps: [
                         {
-                            name: "Streisand",
+                            name: "Happ",
                             recommended: true,
-                            downloadUrl:
-                                "https://apps.apple.com/app/streisand/id6450534064",
-                            importUrl: "streisand://import/{{SUB_URL}}",
+                            downloadLinks: [
+                                {
+                                    label: "App Store (РФ)",
+                                    url: "https://apps.apple.com/ru/app/happ-proxy-utility-plus/id6746188973",
+                                },
+                                {
+                                    label: "App Store (другие)",
+                                    url: "https://apps.apple.com/us/app/happ-proxy-utility/id6504287215",
+                                },
+                            ],
+                            importUrl: "happ://add/{{SUB_URL}}",
                             steps: [
                                 {
-                                    title: "Установите Streisand",
-                                    desc: "Скачайте приложение из App Store",
+                                    title: "Установите Happ",
+                                    desc: "Выберите версию для вашего Apple ID",
                                     action: "download",
                                 },
                                 {
-                                    title: "Добавьте подписку",
-                                    desc: "Нажмите кнопку для автоматического импорта",
-                                    action: "import",
-                                },
-                                {
                                     title: "Подключайтесь!",
-                                    desc: "Нажмите кнопку подключения в приложении",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
                                 },
                             ],
                         },
                         {
-                            name: "Hiddify",
+                            name: "v2rayTun",
                             downloadUrl:
-                                "https://github.com/hiddify/hiddify-app/releases/latest",
-                            importUrl: "hiddify://import/{{SUB_URL}}",
+                                "https://apps.apple.com/en/app/v2raytun/id6476628951",
+                            importUrl: "v2rayTun://import/{{SUB_URL}}",
                             steps: [
                                 {
-                                    title: "Установите Hiddify",
-                                    desc: "Скачайте последнюю версию с GitHub",
+                                    title: "Установите v2rayTun",
+                                    desc: "Скачайте приложение из App Store",
                                     action: "download",
                                 },
                                 {
-                                    title: "Добавьте подписку",
-                                    desc: "Нажмите кнопку для автоматического импорта",
-                                    action: "import",
-                                },
-                                {
                                     title: "Подключайтесь!",
-                                    desc: "Нажмите кнопку подключения",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
                                 },
                             ],
                         },
