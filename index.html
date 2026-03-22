@@ -1309,53 +1309,35 @@
                 linux: {
                     name: "Linux",
                     icon: "linux",
-                    showAppInfo: true,
+                    showAppInfo: false,
                     apps: [
                         {
-                            name: "Hiddify",
-                            recommended: true,
-                            downloadUrl:
-                                "https://github.com/hiddify/hiddify-app/releases/latest",
-                            importUrl: "hiddify://import/{{SUB_URL}}",
-                            steps: [
+                            name: "Happ",
+                            downloadLinks: [
                                 {
-                                    title: "Установите Hiddify",
-                                    desc: "Скачайте последнюю версию с GitHub",
-                                    action: "download",
+                                    label: "DEB (Ubuntu, Debian)",
+                                    url: "https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.deb",
                                 },
                                 {
-                                    title: "Добавьте подписку",
-                                    desc: "Нажмите кнопку для автоматического импорта",
-                                    action: "import",
+                                    label: "RPM (Fedora, RHEL)",
+                                    url: "https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.rpm",
                                 },
                                 {
-                                    title: "Подключайтесь!",
-                                    desc: "Нажмите кнопку подключения",
+                                    label: "PKG (Arch Linux)",
+                                    url: "https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.pkg.tar.zst",
                                 },
                             ],
-                        },
-                        {
-                            name: "Nekoray",
-                            downloadUrl:
-                                "https://github.com/MatsuriDayo/nekoray/releases/latest",
+                            importUrl: "happ://add/{{SUB_URL}}",
                             steps: [
                                 {
-                                    title: "Установите Nekoray",
-                                    desc: "Скачайте последнюю версию с GitHub",
+                                    title: "Установите Happ",
+                                    desc: "Выберите пакет для вашего дистрибутива",
                                     action: "download",
                                 },
                                 {
-                                    title: "Скопируйте ссылку",
-                                    desc: "Скопируйте ссылку подписки",
-                                    action: "copy",
-                                },
-                                {
-                                    title: "Добавьте подписку",
-                                    desc: "Настройки → Группы → Новая группа → Вставьте ссылку в поле подписки",
-                                },
-                                {
                                     title: "Подключайтесь!",
-                                    desc: "Выберите сервер и нажмите «Запустить»",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
                                 },
                             ],
                         },
