@@ -792,6 +792,170 @@
                 text-decoration: underline;
             }
 
+            /* ---- TV Store Search Card ---- */
+            .tv-store-card {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 14px 16px;
+                border-radius: var(--radius-sm);
+                background: var(--border-light);
+                border: 1.5px solid var(--border);
+                transition: var(--transition);
+            }
+            .tv-store-icon {
+                width: 42px;
+                height: 42px;
+                border-radius: 10px;
+                background: var(--primary-gradient);
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+            .tv-store-icon svg {
+                width: 22px;
+                height: 22px;
+            }
+            .tv-store-body {
+                flex: 1;
+                min-width: 0;
+            }
+            .tv-store-label {
+                font-size: 11px;
+                color: var(--text-muted);
+                margin-bottom: 2px;
+            }
+            .tv-store-query {
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--text);
+                font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+                letter-spacing: 0.5px;
+            }
+            .tv-store-hint {
+                font-size: 11px;
+                color: var(--text-muted);
+                margin-top: 8px;
+                line-height: 1.4;
+            }
+            .tv-store-hint a {
+                color: var(--primary);
+                text-decoration: none;
+            }
+            .tv-store-hint a:hover {
+                text-decoration: underline;
+            }
+
+            /* ---- TV Code Input ---- */
+            .tv-code-wrap {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            .tv-code-row {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            .tv-code-input {
+                width: 160px;
+                padding: 10px 14px;
+                font-size: 18px;
+                font-weight: 700;
+                font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+                letter-spacing: 6px;
+                text-transform: uppercase;
+                text-align: center;
+                border-radius: var(--radius-sm);
+                border: 1.5px solid var(--border);
+                background: var(--border-light);
+                color: var(--text);
+                outline: none;
+                transition: var(--transition);
+            }
+            .tv-code-input:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px var(--primary-light);
+            }
+            .tv-code-input::placeholder {
+                letter-spacing: 4px;
+                font-weight: 400;
+                opacity: 0.4;
+            }
+            .tv-code-hint {
+                font-size: 11px;
+                color: var(--text-muted);
+                line-height: 1.4;
+            }
+            .btn:disabled {
+                opacity: 0.45;
+                cursor: not-allowed;
+                filter: grayscale(0.4);
+            }
+            .btn-spinner {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                border-top-color: #fff;
+                border-radius: 50%;
+                animation: spin 0.6s linear infinite;
+            }
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            .tv-success-banner {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 16px;
+                border-radius: var(--radius-sm);
+                background: rgba(52, 199, 89, 0.12);
+                border: 1px solid rgba(52, 199, 89, 0.3);
+                color: #34c759;
+                font-size: 13px;
+                font-weight: 600;
+                margin-top: 8px;
+                animation: fadeIn 0.3s ease;
+            }
+            [data-theme="light"] .tv-success-banner {
+                background: rgba(52, 199, 89, 0.08);
+                color: #248a3d;
+            }
+            .tv-error-banner {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 16px;
+                border-radius: var(--radius-sm);
+                background: rgba(255, 69, 58, 0.12);
+                border: 1px solid rgba(255, 69, 58, 0.3);
+                color: #ff453a;
+                font-size: 13px;
+                font-weight: 600;
+                margin-top: 8px;
+                animation: fadeIn 0.3s ease;
+            }
+            [data-theme="light"] .tv-error-banner {
+                background: rgba(255, 59, 48, 0.08);
+                color: #d70015;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-4px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
             /* ---- Expired Badge ---- */
             .status-badge {
                 display: inline-flex;
@@ -1125,8 +1289,8 @@
                         "
                     >
                         Если подписка не добавилась в установленное приложение
-                        автоматически — нажмите кнопку «Скопировать ссылку»
-                        ниже и вставьте подписку в приложение вручную.
+                        автоматически — нажмите кнопку «Скопировать ссылку» ниже
+                        и вставьте подписку в приложение вручную.
                     </p>
                     <button
                         class="btn btn-outline"
@@ -1181,7 +1345,7 @@
                 chevron:
                     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
                 playStore:
-                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l9 9-9 9"/><path d="M12 12l9-5-9-5"/><path d="M12 12l9 5-9 5"/></svg>',
+                    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.61 1.814a1.63 1.63 0 0 0-.61 1.3v17.77a1.63 1.63 0 0 0 .61 1.3l.07.04L13.7 12.2v-.08-.08L3.68 1.774l-.07.04zM17.35 15.85l-3.65-3.65v-.08-.08l3.65-3.65.08.05 4.33 2.46c1.24.7 1.24 1.85 0 2.56l-4.33 2.46-.08.05-.08-.12zM17.51 16l-3.81-3.8-10.1 10.1c.41.43 1.08.48 1.84.06L17.51 16zM17.51 8.2L5.44 1.84C4.68 1.42 4.01 1.47 3.6 1.9l10.1 10.1 3.81-3.8z"/></svg>',
                 warning:
                     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17.01"/></svg>',
             };
@@ -1425,50 +1589,50 @@
                     icon: "tv",
                     apps: [
                         {
-                            name: "V2rayNG (Android TV)",
-                            recommended: true,
+                            name: "Happ (Android TV)",
+                            storeName: "Google Play",
+                            storeIcon: "playStore",
                             downloadUrl:
-                                "https://play.google.com/store/apps/details?id=com.v2ray.ang",
+                                "https://play.google.com/store/apps/details?id=com.happproxy",
+                            directApkUrl:
+                                "https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk",
                             steps: [
                                 {
-                                    title: "Установите V2rayNG",
-                                    desc: "Откройте Google Play на вашем Android TV и установите V2rayNG",
-                                    action: "download",
+                                    title: "Установка приложения",
+                                    desc: "Откройте магазин приложений на вашем телевизоре и найдите приложение Happ",
+                                    action: "tvsearch",
                                 },
                                 {
-                                    title: "Отсканируйте QR-код",
-                                    desc: "Нажмите кнопку QR внизу карточки, отсканируйте код камерой телевизора или используйте эту ссылку на телефоне",
+                                    title: "Получение кода",
+                                    desc: "В приложении Happ на телевизоре нажмите кнопку:\n\n«Поделиться через Веб»\n\nПосле этого на экране появится 5-значный код",
                                 },
                                 {
-                                    title: "Скопируйте ссылку",
-                                    desc: "Скопируйте ссылку подписки и отправьте её на телевизор",
-                                    action: "copy",
-                                },
-                                {
-                                    title: "Подключайтесь!",
-                                    desc: "В V2rayNG: + → Импорт из буфера обмена → нажмите ▶",
+                                    title: "Подключение подписки",
+                                    desc: "Введите 5-значный код, отображаемый на экране вашего TV",
+                                    action: "tvcode",
                                 },
                             ],
                         },
                         {
-                            name: "Streisand (Apple TV)",
+                            name: "Happ (Apple TV)",
+                            storeName: "App Store",
+                            storeIcon: "macos",
                             downloadUrl:
-                                "https://apps.apple.com/app/streisand/id6450534064",
-                            importUrl: "streisand://import/{{SUB_URL}}",
+                                "https://apps.apple.com/us/app/happ-proxy-utility-for-tv/id6748297274",
                             steps: [
                                 {
-                                    title: "Установите Streisand",
-                                    desc: "Откройте App Store на Apple TV и установите Streisand",
-                                    action: "download",
+                                    title: "Установка приложения",
+                                    desc: "Откройте магазин приложений на вашем телевизоре и найдите приложение Happ",
+                                    action: "tvsearch",
                                 },
                                 {
-                                    title: "Добавьте подписку",
-                                    desc: "Импортируйте конфигурацию с помощью кнопки ниже или через QR-код",
-                                    action: "import",
+                                    title: "Получение кода",
+                                    desc: "В приложении Happ на телевизоре нажмите кнопку:\n\n«Поделиться через Веб»\n\nПосле этого на экране появится 5-значный код",
                                 },
                                 {
-                                    title: "Подключайтесь!",
-                                    desc: "Выберите сервер и нажмите «Подключить»",
+                                    title: "Подключение подписки",
+                                    desc: "Введите 5-значный код, отображаемый на экране вашего TV",
+                                    action: "tvcode",
                                 },
                             ],
                         },
@@ -1625,7 +1789,7 @@
                     html += `<div class="step-indicator"><div class="step-number">${i + 1}</div><div class="step-line"></div></div>`;
                     html += `<div class="step-content">`;
                     html += `<div class="step-title">${esc(step.title)}</div>`;
-                    html += `<div class="step-desc">${esc(step.desc)}</div>`;
+                    html += `<div class="step-desc">${esc(step.desc).replace(/\n/g, "<br>")}</div>`;
 
                     if (step.action) {
                         html += '<div class="btn-group">';
@@ -1653,7 +1817,35 @@
                         if (step.action === "copy") {
                             html += `<button class="btn btn-primary" onclick="copySubUrl()">${ICONS.copy} Скопировать ссылку</button>`;
                         }
-                        html += "</div>";
+                        if (step.action === "tvsearch") {
+                            const icon = app.storeIcon ? ICONS[app.storeIcon] : ICONS.download;
+                            const store = app.storeName || 'магазине приложений';
+                            html += `</div><div class="tv-store-card">
+                                <div class="tv-store-icon">${icon}</div>
+                                <div class="tv-store-body">
+                                    <div class="tv-store-label">Найдите в ${esc(store)}</div>
+                                    <div class="tv-store-query">Happ</div>
+                                </div>
+                            </div>`;
+                            if (app.downloadUrl) {
+                                html += `<div class="tv-store-hint">Или откройте <a href="${esc(app.downloadUrl)}" target="_blank" rel="noopener">ссылку на ${esc(store)}</a> на вашем устройстве</div>`;
+                            }
+                            if (app.directApkUrl) {
+                                html += `<div class="tv-store-hint">Нет доступа к магазину? <a href="${esc(app.directApkUrl)}" target="_blank" rel="noopener">Скачать APK напрямую</a></div>`;
+                            }
+                        }
+                        if (step.action === "tvcode") {
+                            html += `</div><div class="tv-code-wrap">
+                                <div class="tv-code-row">
+                                    <input type="text" id="tvCodeInput" class="tv-code-input" maxlength="5" placeholder="XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" oninput="onTvCodeInput(this)">
+                                    <button id="tvCodeBtn" class="btn btn-primary" disabled onclick="sendTvCode()">Подключить</button>
+                                </div>
+                                <div class="tv-code-hint">Убедитесь, что ваш телевизор подключен к интернету и на экране отображается код для подключения.</div>
+                                <div id="tvCodeResult"></div>
+                            </div>`;
+                        } else if (step.action !== "tvsearch") {
+                            html += "</div>";
+                        }
 
                         // Direct APK download link
                         if (step.action === "download" && app.directApkUrl) {
@@ -1757,6 +1949,53 @@
                     .catch(() => showToast("Не удалось скопировать"));
             }
 
+            function onTvCodeInput(input) {
+                input.value = input.value
+                    .replace(/[^A-Za-z0-9]/g, "")
+                    .toUpperCase()
+                    .slice(0, 5);
+                const btn = document.getElementById("tvCodeBtn");
+                if (btn) btn.disabled = input.value.length !== 5;
+            }
+
+            async function sendTvCode() {
+                const input = document.getElementById("tvCodeInput");
+                const btn = document.getElementById("tvCodeBtn");
+                const result = document.getElementById("tvCodeResult");
+                const code = (input?.value || "").toUpperCase().trim();
+                if (code.length !== 5) return;
+
+                btn.disabled = true;
+                btn.style.opacity = "1";
+                btn.style.filter = "none";
+                btn.innerHTML = '<span class="btn-spinner"></span>';
+                result.innerHTML = "";
+
+                try {
+                    const b64 = btoa(subscriptionUrl);
+                    await fetch(
+                        "https://check.happ.su/sendtv/" +
+                            encodeURIComponent(code),
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ data: b64 }),
+                            mode: "no-cors",
+                        },
+                    );
+                    result.innerHTML =
+                        '<div class="tv-success-banner">✓ Подписка успешно отправлена на ваш телевизор</div>';
+                    input.disabled = true;
+                } catch (e) {
+                    result.innerHTML =
+                        '<div class="tv-error-banner">Не удалось отправить. Проверьте код и попробуйте снова.</div>';
+                    btn.disabled = false;
+                    btn.style.opacity = "";
+                    btn.style.filter = "";
+                }
+                btn.textContent = "Подключить";
+            }
+
             function showQrModal() {
                 const url = window.location.href;
                 const modal = document.getElementById("qrModal");
@@ -1819,8 +2058,7 @@
                     ["qrModal", "supportModal", "subHelpModal"].forEach(
                         (id) => {
                             const el = document.getElementById(id);
-                            if (el.classList.contains("active"))
-                                closeModal(id);
+                            if (el.classList.contains("active")) closeModal(id);
                         },
                     );
                 }
