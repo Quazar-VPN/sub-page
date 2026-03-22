@@ -815,32 +815,28 @@
             /* ---- Support Button ---- */
             .sub-help-btn {
                 width: 100%;
-                display: inline-flex;
+                border-radius: var(--radius);
+                border: 1px solid var(--extra-btn-border);
+                background: var(--extra-btn-bg);
+                transition: var(--transition);
+                padding: 14px 20px;
+                display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 8px;
-                padding: 10px 18px;
-                border-radius: var(--radius-sm);
-                border: 1px solid var(--border);
-                background: var(--border-light);
-                color: var(--text);
-                font-size: 13px;
-                font-weight: 600;
-                font-family: inherit;
+                gap: 12px;
                 cursor: pointer;
-                transition: var(--transition);
-                margin-top: 10px;
-                text-decoration: none;
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--extra-btn-color);
+                font-family: inherit;
                 animation: fadeSlideIn 0.4s ease;
             }
             .sub-help-btn:hover {
-                border-color: var(--primary-border);
                 background: var(--primary-light);
-                color: var(--primary);
             }
             .sub-help-btn svg {
-                width: 16px;
-                height: 16px;
+                width: 20px;
+                height: 20px;
                 flex-shrink: 0;
             }
             .support-btn {
