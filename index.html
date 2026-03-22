@@ -576,6 +576,7 @@
                 display: none;
                 position: fixed;
                 inset: 0;
+                height: 100dvh;
                 background: rgba(5, 5, 20, 0.8);
                 backdrop-filter: blur(16px);
                 -webkit-backdrop-filter: blur(16px);
@@ -583,6 +584,7 @@
                 align-items: center;
                 justify-content: center;
                 padding: 20px;
+                overflow: auto;
                 animation: fadeIn 0.2s ease;
             }
             .modal-overlay.active {
@@ -803,8 +805,6 @@
             @media (max-width: 460px) {
                 body {
                     padding: 12px;
-                    align-items: flex-start;
-                    padding-top: 24px;
                     overflow-y: auto;
                 }
                 .card {
@@ -925,7 +925,6 @@
                         {
                             name: "Happ",
                             recommended: true,
-                            info: "Современный и удобный клиент с минималистичным интерфейсом. Автоматически подбирает лучший сервер и поддерживает быстрый импорт подписки.",
                             downloadLinks: [
                                 { label: "App Store (РФ)", url: "itms-apps://apps.apple.com/app/id6746188973" },
                                 { label: "App Store (другие)", url: "itms-apps://apps.apple.com/app/id6504287215" },
@@ -946,7 +945,6 @@
                         },
                         {
                             name: "v2rayTun",
-                            info: "Проверенный клиент с расширенными настройками маршрутизации. Подходит для опытных пользователей, которым нужен больший контроль.",
                             downloadUrl: "itms-apps://apps.apple.com/app/id6476628951",
                             importUrl: "v2rayTun://import/{{SUB_URL}}",
                             steps: [
@@ -1015,6 +1013,7 @@
                 windows: {
                     name: "Windows",
                     icon: "windows",
+                    showAppInfo: true,
                     apps: [
                         {
                             name: "Hiddify",
@@ -1069,6 +1068,7 @@
                 macos: {
                     name: "macOS",
                     icon: "macos",
+                    showAppInfo: true,
                     apps: [
                         {
                             name: "Streisand",
@@ -1120,6 +1120,7 @@
                 linux: {
                     name: "Linux",
                     icon: "linux",
+                    showAppInfo: true,
                     apps: [
                         {
                             name: "Hiddify",
