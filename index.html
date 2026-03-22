@@ -915,7 +915,7 @@
             <div class="modal-box">
                 <div class="modal-header">
                     <span class="modal-title">QR-код</span>
-                    <button class="modal-close" onclick="closeModal()">
+                    <button class="modal-close" onclick="closeModal('qrModal')">
                         &times;
                     </button>
                 </div>
@@ -924,6 +924,28 @@
                         <div id="qrCode"></div>
                         <p class="qr-hint">Отсканируйте код на другом устройстве для перехода на эту страницу, либо для добавления подписки сразу в приложение</p>
                     </div>
+                    <button class="btn btn-outline" style="width:100%;margin-top:16px" onclick="copySubUrl()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Скопировать ссылку
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Modal -->
+        <div class="modal-overlay" id="supportModal">
+            <div class="modal-box">
+                <div class="modal-header">
+                    <span class="modal-title">Нужна помощь?</span>
+                    <button class="modal-close" onclick="closeModal('supportModal')">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align:center">
+                    <p style="margin:0 0 16px;font-size:15px;color:var(--text-secondary);line-height:1.5">Мы всегда на связи и готовы помочь! Напишите нам в поддержку, и мы решим любой вопрос.</p>
+                    <a href="https://t.me/quazar_support" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center">
+                        Написать в поддержку
+                    </a>
                 </div>
             </div>
         </div>
@@ -1441,7 +1463,6 @@
                                 );
                                 html += `<a href="${esc(importLink)}" class="btn btn-primary" onclick="onImportClick()">${ICONS.import} Подключить</a>`;
                             }
-                            html += `<button class="btn btn-outline" onclick="copySubUrl()">${ICONS.copy} Скопировать ссылку</button>`;
                         }
                         if (step.action === "copy") {
                             html += `<button class="btn btn-primary" onclick="copySubUrl()">${ICONS.copy} Скопировать ссылку</button>`;
@@ -1466,9 +1487,9 @@
 
                 // Support button (appears after import click + 5s delay)
                 if (showSupportBtn) {
-                    html += `<a href="https://t.me/quazar_support" target="_blank" rel="noopener" class="support-btn" onclick="onSupportClick(event)">
-        ${ICONS.warning} Не работает VPN
-    </a>`;
+                    html += `<button class="support-btn" onclick="showSupportModal()">
+        ${ICONS.warning} VPN не работает
+    </button>`;
                 }
 
                 html += "</div>";
@@ -1515,12 +1536,8 @@
                 }, 5000);
             }
 
-            function onSupportClick(e) {
-                e.preventDefault();
-                showToast("Напишите нам в поддержку, мы обязательно поможем");
-                setTimeout(() => {
-                    window.open("https://t.me/quazar_support", "_blank");
-                }, 1500);
+            function showSupportModal() {
+                document.getElementById("supportModal").classList.add("active");
             }
 
             function copySubUrl() {
@@ -1551,8 +1568,8 @@
                 modal.classList.add("active");
             }
 
-            function closeModal() {
-                document.getElementById("qrModal").classList.remove("active");
+            function closeModal(id) {
+                document.getElementById(id).classList.remove("active");
             }
 
             function showToast(msg) {
@@ -1579,7 +1596,12 @@
             document
                 .getElementById("qrModal")
                 .addEventListener("click", function (e) {
-                    if (e.target === this) closeModal();
+                    if (e.target === this) closeModal("qrModal");
+                });
+            document
+                .getElementById("supportModal")
+                .addEventListener("click", function (e) {
+                    if (e.target === this) closeModal("supportModal");
                 });
 
             loadPanelData();
