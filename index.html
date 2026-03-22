@@ -1291,7 +1291,7 @@
                 // Try Remnawave template
                 try {
                     const b64 = "<%= panelData %>";
-                    if (b64 && !b64.includes("<%")) {
+                    if (b64 && !b64.includes("<" + "%")) {
                         panelData = JSON.parse(atob(b64));
                     }
                 } catch (e) {}
