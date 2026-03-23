@@ -1644,6 +1644,7 @@
             // STATE
             // ============================================================
             let panelData = null;
+            const REDIRECT_BASE = "https://r.quazar.icu/?redirect_to=";
             let subscriptionUrl = "";
             let currentView = "devices"; // 'devices' | 'instructions'
             let currentPlatform = null;
@@ -1807,10 +1808,11 @@
                         }
                         if (step.action === "import" && app.importUrl) {
                             if (subscriptionUrl) {
-                                const importLink = app.importUrl.replace(
+                                const deepLink = app.importUrl.replace(
                                     "{{SUB_URL}}",
                                     subscriptionUrl,
                                 );
+                                const importLink = REDIRECT_BASE + encodeURIComponent(deepLink);
                                 html += `<a href="${esc(importLink)}" class="btn btn-primary" onclick="onImportClick()">${ICONS.import} Подключить</a>`;
                             }
                         }
