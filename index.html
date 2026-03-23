@@ -1813,7 +1813,7 @@
                                     subscriptionUrl,
                                 );
                                 const importLink = REDIRECT_BASE + encodeURIComponent(deepLink);
-                                html += `<a href="${esc(importLink)}" class="btn btn-primary" onclick="onImportClick()">${ICONS.import} Подключить</a>`;
+                                html += `<a href="${esc(importLink)}" target="_blank" rel="noopener" class="btn btn-primary" onclick="onImportClick()">${ICONS.import} Подключить</a>`;
                             }
                         }
                         if (step.action === "copy") {
