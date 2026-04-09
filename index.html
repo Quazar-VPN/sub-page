@@ -443,6 +443,13 @@
                 border-color: transparent;
                 color: white;
             }
+            .app-chip .app-icon {
+                width: 18px;
+                height: 18px;
+                border-radius: 3px;
+                object-fit: contain;
+                flex-shrink: 0;
+            }
             .app-chip .rec-star {
                 font-size: 10px;
                 line-height: 1;
@@ -1352,6 +1359,12 @@
                     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17.01"/></svg>',
             };
 
+            const APP_ICONS = {
+                Happ: 'https://raw.githubusercontent.com/arpicme/Proxy-App-Icon-set/main/dark_background/Happ.svg',
+                Incy: 'https://raw.githubusercontent.com/arpicme/Proxy-App-Icon-set/main/dark_background/INCY.svg',
+                v2rayTun: 'https://raw.githubusercontent.com/arpicme/Proxy-App-Icon-set/main/dark_background/V2RayTun.svg',
+            };
+
             const PLATFORMS = {
                 ios: {
                     name: "iPhone / iPad",
@@ -1376,6 +1389,28 @@
                                 {
                                     title: "Установите Happ",
                                     desc: "Выберите версию для вашего Apple ID",
+                                    action: "download",
+                                },
+                                {
+                                    title: "Подключайтесь!",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
+                                },
+                            ],
+                        },
+                        {
+                            name: "Incy",
+                            downloadLinks: [
+                                {
+                                    label: "App Store",
+                                    url: "https://apps.apple.com/us/app/incy/id6756943388",
+                                },
+                            ],
+                            importUrl: "incy://connect?url={{SUB_URL}}",
+                            steps: [
+                                {
+                                    title: "Установите Incy",
+                                    desc: "Скачайте приложение из App Store",
                                     action: "download",
                                 },
                                 {
@@ -1432,6 +1467,26 @@
                             ],
                         },
                         {
+                            name: "Incy",
+                            downloadUrl:
+                                "https://play.google.com/store/apps/details?id=llc.itdev.incy",
+                            directApkUrl:
+                                "https://github.com/INCY-DEV/incy-platforms/releases/latest/download/Incy.apk",
+                            importUrl: "incy://connect?url={{SUB_URL}}",
+                            steps: [
+                                {
+                                    title: "Установите Incy",
+                                    desc: "Скачайте приложение из Google Play",
+                                    action: "download",
+                                },
+                                {
+                                    title: "Подключайтесь!",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
+                                },
+                            ],
+                        },
+                        {
                             name: "v2rayTun",
                             downloadUrl:
                                 "https://play.google.com/store/apps/details?id=com.v2raytun.android",
@@ -1467,6 +1522,24 @@
                             steps: [
                                 {
                                     title: "Установите Happ",
+                                    desc: "Скачайте и установите приложение",
+                                    action: "download",
+                                },
+                                {
+                                    title: "Подключайтесь!",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
+                                },
+                            ],
+                        },
+                        {
+                            name: "Incy",
+                            downloadUrl:
+                                "https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-windows-setup.exe",
+                            importUrl: "incy://connect?url={{SUB_URL}}",
+                            steps: [
+                                {
+                                    title: "Установите Incy",
                                     desc: "Скачайте и установите приложение",
                                     action: "download",
                                 },
@@ -1530,6 +1603,32 @@
                             ],
                         },
                         {
+                            name: "Incy",
+                            downloadLinks: [
+                                {
+                                    label: "Apple Silicon (M1/M2/M3)",
+                                    url: "https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-macos-arm64.dmg",
+                                },
+                                {
+                                    label: "Intel",
+                                    url: "https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-macos-intel.dmg",
+                                },
+                            ],
+                            importUrl: "incy://connect?url={{SUB_URL}}",
+                            steps: [
+                                {
+                                    title: "Установите Incy",
+                                    desc: "Выберите версию для вашего процессора",
+                                    action: "download",
+                                },
+                                {
+                                    title: "Подключайтесь!",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
+                                },
+                            ],
+                        },
+                        {
                             name: "v2rayTun",
                             downloadUrl:
                                 "https://apps.apple.com/en/app/v2raytun/id6476628951",
@@ -1574,6 +1673,36 @@
                             steps: [
                                 {
                                     title: "Установите Happ",
+                                    desc: "Выберите пакет для вашего дистрибутива и установите его согласно инструкциям к дистрибутиву",
+                                    action: "download",
+                                },
+                                {
+                                    title: "Подключайтесь!",
+                                    desc: "Нажмите кнопку — подписка добавится автоматически",
+                                    action: "import",
+                                },
+                            ],
+                        },
+                        {
+                            name: "Incy",
+                            downloadLinks: [
+                                {
+                                    label: "DEB (Ubuntu, Debian)",
+                                    url: "https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-linux-x64.deb",
+                                },
+                                {
+                                    label: "RPM (Fedora, RHEL)",
+                                    url: "https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-linux-x64.rpm",
+                                },
+                                {
+                                    label: "PKG (Arch Linux)",
+                                    url: "https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-linux-x64.pkg.tar.zst",
+                                },
+                            ],
+                            importUrl: "incy://connect?url={{SUB_URL}}",
+                            steps: [
+                                {
+                                    title: "Установите Incy",
                                     desc: "Выберите пакет для вашего дистрибутива и установите его согласно инструкциям к дистрибутиву",
                                     action: "download",
                                 },
@@ -1764,7 +1893,11 @@
                         const dot = a.recommended
                             ? '<span class="rec-star">★</span>'
                             : "";
-                        html += `<span class="app-chip${active}" onclick="switchApp(${i})" role="button" tabindex="0">${dot}${esc(a.name)}</span>`;
+                        const iconUrl = APP_ICONS[a.name] || '';
+                        const iconHtml = iconUrl
+                            ? `<img class="app-icon" src="${iconUrl}" alt="" loading="lazy">`
+                            : '';
+                        html += `<span class="app-chip${active}" onclick="switchApp(${i})" role="button" tabindex="0">${iconHtml}${dot}${esc(a.name)}</span>`;
                     });
                     html += "</div>";
                 }
