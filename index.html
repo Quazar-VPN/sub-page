@@ -553,6 +553,13 @@
                 display: flex;
                 flex-direction: column;
                 gap: 0;
+                transition:
+                    opacity 0.18s ease,
+                    transform 0.18s ease;
+            }
+            .steps.swapping {
+                opacity: 0;
+                transform: translateY(6px);
             }
 
             .step {
@@ -584,6 +591,32 @@
                 place-items: center;
                 flex-shrink: 0;
                 box-shadow: 0 0 12px var(--step-number-shadow);
+                transition:
+                    background 0.3s ease,
+                    box-shadow 0.3s ease,
+                    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .step-number.done {
+                background: linear-gradient(135deg, #10b981, #22c55e);
+                box-shadow: 0 0 12px rgba(34, 197, 94, 0.35);
+                animation: stepDone 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .step-number.done svg {
+                width: 18px;
+                height: 18px;
+                stroke: white;
+                stroke-width: 3;
+            }
+            @keyframes stepDone {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.18);
+                }
+                100% {
+                    transform: scale(1);
+                }
             }
 
             .step-line {
@@ -765,6 +798,11 @@
                 flex-direction: column;
                 align-items: center;
             }
+            .qr-code-inner {
+                position: relative;
+                display: inline-block;
+                line-height: 0;
+            }
             .qr-wrap canvas,
             .qr-wrap img {
                 border-radius: var(--radius-sm);
@@ -772,6 +810,21 @@
                 padding: 8px;
                 max-width: 100%;
                 height: auto;
+            }
+            .qr-logo {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 22%;
+                height: 22%;
+                border-radius: 10px;
+                background: white;
+                padding: 4px;
+                box-shadow:
+                    0 0 0 4px white,
+                    0 2px 8px rgba(0, 0, 0, 0.15);
+                pointer-events: none;
             }
             .qr-hint {
                 margin-top: 12px;
@@ -1194,6 +1247,17 @@
                 transform: scale(1);
             }
 
+            /* ---- Reduced motion ---- */
+            @media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+
             /* ---- Responsive ---- */
             @media (max-width: 460px) {
                 body {
@@ -1301,8 +1365,33 @@
                         </p>
                     </div>
                     <button
+                        id="sharePageBtn"
                         class="btn btn-outline"
-                        style="width: 100%; margin-top: 16px"
+                        style="
+                            width: 100%;
+                            margin-top: 16px;
+                            display: none;
+                        "
+                        onclick="sharePage()"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            style="width: 18px; height: 18px"
+                        >
+                            <path d="M4 12v7a2 2 0 002 2h12a2 2 0 002-2v-7" />
+                            <polyline points="16 6 12 2 8 6" />
+                            <line x1="12" y1="2" x2="12" y2="15" />
+                        </svg>
+                        Поделиться
+                    </button>
+                    <button
+                        class="btn btn-outline"
+                        style="width: 100%; margin-top: 8px"
                         onclick="copySubUrl()"
                     >
                         <svg
@@ -1319,7 +1408,7 @@
                                 d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
                             />
                         </svg>
-                        Скопировать ссылку
+                        Скопировать ссылку подписки
                     </button>
                 </div>
             </div>
@@ -1870,6 +1959,17 @@
             let supportTimeout = null;
             let showSubHelp = false;
             let subHelpTimeout = null;
+            let stepsCompleted = {}; // { download: bool, import: bool, tvcode: bool, copy: bool }
+            let importClickedAt = 0;
+
+            function resetAppState() {
+                showSupportBtn = false;
+                showSubHelp = false;
+                stepsCompleted = {};
+                importClickedAt = 0;
+                if (supportTimeout) clearTimeout(supportTimeout);
+                if (subHelpTimeout) clearTimeout(subHelpTimeout);
+            }
 
             // ============================================================
             // PANEL DATA
@@ -1964,6 +2064,85 @@
                 return html;
             }
 
+            function renderStepsInner(app) {
+                let html = "";
+                app.steps.forEach((step, i) => {
+                    const action = step.action || "";
+                    const done = action && stepsCompleted[action];
+                    const numContent = done ? ICONS.check : i + 1;
+                    html += `<div class="step" data-step-action="${esc(action)}">`;
+                    html += `<div class="step-indicator"><div class="step-number${done ? " done" : ""}">${numContent}</div><div class="step-line"></div></div>`;
+                    html += `<div class="step-content">`;
+                    html += `<div class="step-title">${esc(step.title)}</div>`;
+                    html += `<div class="step-desc">${esc(step.desc).replace(/\n/g, "<br>")}</div>`;
+
+                    if (action) {
+                        html += '<div class="btn-group">';
+                        if (action === "download") {
+                            if (
+                                app.downloadLinks &&
+                                app.downloadLinks.length > 0
+                            ) {
+                                app.downloadLinks.forEach((dl) => {
+                                    html += `<a href="${esc(dl.url)}" target="_blank" rel="noopener" class="btn btn-primary" onclick="onDownloadClick()">${ICONS.download} ${esc(dl.label)}</a>`;
+                                });
+                            } else if (app.downloadUrl) {
+                                html += `<a href="${esc(app.downloadUrl)}" target="_blank" rel="noopener" class="btn btn-primary" onclick="onDownloadClick()">${ICONS.download} Скачать</a>`;
+                            }
+                        }
+                        if (action === "import" && app.importUrl) {
+                            if (subscriptionUrl) {
+                                const deepLink = app.importUrl.replace(
+                                    "{{SUB_URL}}",
+                                    subscriptionUrl,
+                                );
+                                const importLink = REDIRECT_BASE + encodeURIComponent(deepLink);
+                                html += `<a href="${esc(importLink)}" target="_blank" rel="noopener" class="btn btn-primary" onclick="onImportClick()">${ICONS.import} Подключить</a>`;
+                            }
+                        }
+                        if (action === "copy") {
+                            html += `<button class="btn btn-primary" onclick="copySubUrl()">${ICONS.copy} Скопировать ссылку</button>`;
+                        }
+                        if (action === "tvsearch") {
+                            const icon = app.storeIcon ? ICONS[app.storeIcon] : ICONS.download;
+                            const store = app.storeName || 'магазине приложений';
+                            html += `</div><div class="tv-store-card">
+                                <div class="tv-store-icon">${icon}</div>
+                                <div class="tv-store-body">
+                                    <div class="tv-store-label">Найдите в ${esc(store)}</div>
+                                    <div class="tv-store-query">Happ</div>
+                                </div>
+                            </div>`;
+                            if (app.downloadUrl) {
+                                html += `<div class="tv-store-hint">Или откройте <a href="${esc(app.downloadUrl)}" target="_blank" rel="noopener">ссылку на ${esc(store)}</a> на вашем устройстве</div>`;
+                            }
+                            if (app.directApkUrl) {
+                                html += `<div class="tv-store-hint">Нет доступа к магазину? <a href="${esc(app.directApkUrl)}" target="_blank" rel="noopener">Скачать APK напрямую</a></div>`;
+                            }
+                        }
+                        if (action === "tvcode") {
+                            html += `</div><div class="tv-code-wrap">
+                                <div class="tv-code-row">
+                                    <input type="text" id="tvCodeInput" class="tv-code-input" maxlength="5" placeholder="XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" oninput="onTvCodeInput(this)">
+                                    <button id="tvCodeBtn" class="btn btn-primary" disabled onclick="sendTvCode()">Подключить</button>
+                                </div>
+                                <div class="tv-code-hint">Убедитесь, что ваш телевизор подключен к интернету и на экране отображается код для подключения.</div>
+                                <div id="tvCodeResult"></div>
+                            </div>`;
+                        } else if (action !== "tvsearch") {
+                            html += "</div>";
+                        }
+
+                        if (action === "download" && app.directApkUrl) {
+                            html += `<div class="direct-download">Нет доступа к магазину приложений?</br><a href="${esc(app.directApkUrl)}" target="_blank" rel="noopener">Скачать напрямую</a></div>`;
+                        }
+                    }
+
+                    html += "</div></div>";
+                });
+                return html;
+            }
+
             function renderInstructions() {
                 const platform = PLATFORMS[currentPlatform];
                 const app = platform.apps[currentAppIndex];
@@ -2009,84 +2188,13 @@
                 }
 
                 // Steps
-                html += '<div class="steps">';
-                app.steps.forEach((step, i) => {
-                    html += `<div class="step">`;
-                    html += `<div class="step-indicator"><div class="step-number">${i + 1}</div><div class="step-line"></div></div>`;
-                    html += `<div class="step-content">`;
-                    html += `<div class="step-title">${esc(step.title)}</div>`;
-                    html += `<div class="step-desc">${esc(step.desc).replace(/\n/g, "<br>")}</div>`;
-
-                    if (step.action) {
-                        html += '<div class="btn-group">';
-                        if (step.action === "download") {
-                            if (
-                                app.downloadLinks &&
-                                app.downloadLinks.length > 0
-                            ) {
-                                app.downloadLinks.forEach((dl) => {
-                                    html += `<a href="${esc(dl.url)}" target="_blank" rel="noopener" class="btn btn-primary">${ICONS.download} ${esc(dl.label)}</a>`;
-                                });
-                            } else if (app.downloadUrl) {
-                                html += `<a href="${esc(app.downloadUrl)}" target="_blank" rel="noopener" class="btn btn-primary">${ICONS.download} Скачать</a>`;
-                            }
-                        }
-                        if (step.action === "import" && app.importUrl) {
-                            if (subscriptionUrl) {
-                                const deepLink = app.importUrl.replace(
-                                    "{{SUB_URL}}",
-                                    subscriptionUrl,
-                                );
-                                const importLink = REDIRECT_BASE + encodeURIComponent(deepLink);
-                                html += `<a href="${esc(importLink)}" target="_blank" rel="noopener" class="btn btn-primary" onclick="onImportClick()">${ICONS.import} Подключить</a>`;
-                            }
-                        }
-                        if (step.action === "copy") {
-                            html += `<button class="btn btn-primary" onclick="copySubUrl()">${ICONS.copy} Скопировать ссылку</button>`;
-                        }
-                        if (step.action === "tvsearch") {
-                            const icon = app.storeIcon ? ICONS[app.storeIcon] : ICONS.download;
-                            const store = app.storeName || 'магазине приложений';
-                            html += `</div><div class="tv-store-card">
-                                <div class="tv-store-icon">${icon}</div>
-                                <div class="tv-store-body">
-                                    <div class="tv-store-label">Найдите в ${esc(store)}</div>
-                                    <div class="tv-store-query">Happ</div>
-                                </div>
-                            </div>`;
-                            if (app.downloadUrl) {
-                                html += `<div class="tv-store-hint">Или откройте <a href="${esc(app.downloadUrl)}" target="_blank" rel="noopener">ссылку на ${esc(store)}</a> на вашем устройстве</div>`;
-                            }
-                            if (app.directApkUrl) {
-                                html += `<div class="tv-store-hint">Нет доступа к магазину? <a href="${esc(app.directApkUrl)}" target="_blank" rel="noopener">Скачать APK напрямую</a></div>`;
-                            }
-                        }
-                        if (step.action === "tvcode") {
-                            html += `</div><div class="tv-code-wrap">
-                                <div class="tv-code-row">
-                                    <input type="text" id="tvCodeInput" class="tv-code-input" maxlength="5" placeholder="XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" oninput="onTvCodeInput(this)">
-                                    <button id="tvCodeBtn" class="btn btn-primary" disabled onclick="sendTvCode()">Подключить</button>
-                                </div>
-                                <div class="tv-code-hint">Убедитесь, что ваш телевизор подключен к интернету и на экране отображается код для подключения.</div>
-                                <div id="tvCodeResult"></div>
-                            </div>`;
-                        } else if (step.action !== "tvsearch") {
-                            html += "</div>";
-                        }
-
-                        // Direct APK download link
-                        if (step.action === "download" && app.directApkUrl) {
-                            html += `<div class="direct-download">Нет доступа к магазину приложений?</br><a href="${esc(app.directApkUrl)}" target="_blank" rel="noopener">Скачать напрямую</a></div>`;
-                        }
-                    }
-
-                    html += "</div></div>";
-                });
+                html += '<div class="steps" id="stepsContainer">';
+                html += renderStepsInner(app);
                 html += "</div>";
 
-                // Sub help button (appears after import click + 5s delay)
+                // Sub help button (appears after import click + 5s delay, or on return from deep-link)
                 if (showSubHelp) {
-                    html += `<button class="sub-help-btn" onclick="showSubHelpModal()">${ICONS.info} Подписка не добавляется?</button>`;
+                    html += `<button class="sub-help-btn" id="subHelpBtn" onclick="showSubHelpModal()">${ICONS.info} <span>Подписка не добавляется?</span></button>`;
                 }
 
                 // Extra device button
@@ -2095,10 +2203,10 @@
         ${ICONS.devices} Подключить другое устройство
     </button>`;
 
-                // Support button (appears after import click + 5s delay)
+                // Support button (appears after import click + 5s delay, or on return from deep-link)
                 if (showSupportBtn) {
-                    html += `<button class="support-btn" onclick="showSupportModal()">
-        ${ICONS.warning} VPN не работает
+                    html += `<button class="support-btn" id="supportBtn" onclick="showSupportModal()">
+        ${ICONS.warning} <span>VPN не работает</span>
     </button>`;
                 }
 
@@ -2113,28 +2221,40 @@
                 currentPlatform = key;
                 currentAppIndex = 0;
                 currentView = "instructions";
-                showSupportBtn = false;
-                showSubHelp = false;
-                if (supportTimeout) clearTimeout(supportTimeout);
-                if (subHelpTimeout) clearTimeout(subHelpTimeout);
+                resetAppState();
                 render();
             }
 
             function switchApp(index) {
+                if (index === currentAppIndex) return;
                 currentAppIndex = index;
-                showSupportBtn = false;
-                showSubHelp = false;
-                if (supportTimeout) clearTimeout(supportTimeout);
-                if (subHelpTimeout) clearTimeout(subHelpTimeout);
-                render();
+                resetAppState();
+
+                // Update active chip without full re-render
+                document.querySelectorAll(".app-chip").forEach((el, i) => {
+                    el.classList.toggle("active", i === currentAppIndex);
+                });
+
+                // Remove helper buttons if they were shown
+                removeHelperButtons();
+
+                // Crossfade the steps block
+                const stepsEl = document.getElementById("stepsContainer");
+                if (!stepsEl) {
+                    render();
+                    return;
+                }
+                const app = PLATFORMS[currentPlatform].apps[currentAppIndex];
+                stepsEl.classList.add("swapping");
+                setTimeout(() => {
+                    stepsEl.innerHTML = renderStepsInner(app);
+                    stepsEl.classList.remove("swapping");
+                }, 180);
             }
 
             function goToDevices() {
                 currentView = "devices";
-                showSupportBtn = false;
-                showSubHelp = false;
-                if (supportTimeout) clearTimeout(supportTimeout);
-                if (subHelpTimeout) clearTimeout(subHelpTimeout);
+                resetAppState();
                 render();
             }
 
@@ -2144,17 +2264,67 @@
                     ?.classList.toggle("open");
             }
 
+            function markStepDone(action) {
+                if (!action || stepsCompleted[action]) return;
+                stepsCompleted[action] = true;
+                document
+                    .querySelectorAll(
+                        `.step[data-step-action="${action}"] .step-number`,
+                    )
+                    .forEach((el) => {
+                        el.classList.add("done");
+                        el.innerHTML = ICONS.check;
+                    });
+            }
+
+            function onDownloadClick() {
+                markStepDone("download");
+            }
+
             function onImportClick() {
+                markStepDone("import");
+                importClickedAt = Date.now();
                 if (supportTimeout) clearTimeout(supportTimeout);
-                supportTimeout = setTimeout(() => {
-                    showSupportBtn = true;
-                    render();
-                }, 5000);
                 if (subHelpTimeout) clearTimeout(subHelpTimeout);
-                subHelpTimeout = setTimeout(() => {
-                    showSubHelp = true;
-                    render();
-                }, 5000);
+                supportTimeout = setTimeout(showHelperButtons, 5000);
+                subHelpTimeout = setTimeout(showHelperButtons, 5000);
+            }
+
+            function showHelperButtons() {
+                insertSubHelpButton();
+                insertSupportButton();
+            }
+
+            function insertSubHelpButton() {
+                if (showSubHelp) return;
+                const view = document.querySelector(".view");
+                const sep = view?.querySelector("hr.separator");
+                if (!view || !sep) return;
+                showSubHelp = true;
+                const btn = document.createElement("button");
+                btn.id = "subHelpBtn";
+                btn.className = "sub-help-btn";
+                btn.innerHTML = `${ICONS.info} <span>Подписка не добавляется?</span>`;
+                btn.addEventListener("click", showSubHelpModal);
+                view.insertBefore(btn, sep);
+            }
+
+            function insertSupportButton() {
+                if (showSupportBtn) return;
+                const view = document.querySelector(".view");
+                if (!view) return;
+                showSupportBtn = true;
+                const btn = document.createElement("button");
+                btn.id = "supportBtn";
+                btn.className = "support-btn";
+                btn.innerHTML = `${ICONS.warning} <span>VPN не работает</span>`;
+                btn.addEventListener("click", showSupportModal);
+                view.appendChild(btn);
+            }
+
+            function removeHelperButtons() {
+                document.getElementById("subHelpBtn")?.remove();
+                document.getElementById("supportBtn")?.remove();
             }
 
             function showSupportModal() {
@@ -2220,6 +2390,7 @@
                         '<div class="tv-success-banner">✓ Код отправлен. Проверьте экран телевизора</div>';
                     input.disabled = true;
                     btn.textContent = "Отправлено";
+                    markStepDone("tvcode");
                 } catch (e) {
                     result.innerHTML =
                         '<div class="tv-error-banner">Не удалось отправить. Проверьте код и попробуйте снова.</div>';
@@ -2234,16 +2405,52 @@
                 const modal = document.getElementById("qrModal");
                 const container = document.getElementById("qrCode");
                 container.innerHTML = "";
+                container.classList.add("qr-code-inner");
                 try {
-                    const qr = qrcode(0, "M");
+                    // High error correction so the centered logo doesn't break scanning
+                    const qr = qrcode(0, "H");
                     qr.addData(url);
                     qr.make();
                     container.innerHTML = qr.createImgTag(5, 10);
-                    container.querySelector("img").style.borderRadius = "12px";
+                    const img = container.querySelector("img");
+                    if (img) {
+                        img.style.borderRadius = "12px";
+                        const logo = document.createElement("img");
+                        logo.src = "/assets/apple-touch-icon-180x180.png";
+                        logo.className = "qr-logo";
+                        logo.alt = "";
+                        container.appendChild(logo);
+                    }
                 } catch (e) {
                     container.textContent = "Ошибка генерации QR";
                 }
+                // Show native share button only if supported
+                const shareBtn = document.getElementById("sharePageBtn");
+                if (shareBtn) {
+                    shareBtn.style.display =
+                        typeof navigator.share === "function"
+                            ? "inline-flex"
+                            : "none";
+                }
                 modal.classList.add("active");
+            }
+
+            function sharePage() {
+                const url = window.location.href.split(/[?#]/)[0];
+                if (typeof navigator.share !== "function") {
+                    navigator.clipboard
+                        ?.writeText(url)
+                        .then(() => showToast("Ссылка скопирована!"))
+                        .catch(() => {});
+                    return;
+                }
+                navigator
+                    .share({
+                        title: "Квазар — подключение",
+                        text: "Настройка подключения Квазар",
+                        url,
+                    })
+                    .catch(() => {});
             }
 
             function closeModal(id) {
@@ -2350,6 +2557,19 @@
                         },
                     );
                 }
+            });
+
+            // When the user comes back from a deep-link attempt, show helpers
+            // immediately instead of waiting the full 5s fallback.
+            document.addEventListener("visibilitychange", function () {
+                if (document.hidden) return;
+                if (!importClickedAt) return;
+                const elapsed = Date.now() - importClickedAt;
+                if (elapsed < 500 || elapsed > 120000) return;
+                if (supportTimeout) clearTimeout(supportTimeout);
+                if (subHelpTimeout) clearTimeout(subHelpTimeout);
+                supportTimeout = setTimeout(showHelperButtons, 400);
+                subHelpTimeout = setTimeout(showHelperButtons, 400);
             });
 
             loadPanelData();
