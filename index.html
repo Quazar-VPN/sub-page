@@ -2165,8 +2165,8 @@
                 <span class="info-collapse-chevron">${ICONS.chevron}</span>
             </button>
             <div class="info-collapse-body">
-                <p>Оба приложения — это VPN-клиенты. Они подключают вас к серверу с помощью ключа, который вы добавите на следующем шаге.</p>
-                <p>Разницы почти нет — как Chrome и Firefox оба открывают сайты, так и эти приложения одинаково подключают VPN.</p>
+                <p>Это VPN-клиенты. Они подключают вас к серверу с помощью ключа, который вы добавите на следующем шаге.</p>
+                <p>Разницы почти нет — как разные браузеры одинаково открывают сайты, так и эти приложения одинаково подключают VPN.</p>
                 <p>Приложение со звёздочкой — наша рекомендация.</p>
             </div>
         </div>`;
@@ -2430,6 +2430,10 @@
                     container.appendChild(img);
 
                     const logo = new Image();
+                    logo.onerror = () => {
+                        logo.onerror = null;
+                        logo.src = "/assets/apple-touch-icon-180x180.png";
+                    };
                     logo.onload = () => {
                         const logoSize = Math.round(size * 0.22);
                         const x = (size - logoSize) / 2;
@@ -2450,7 +2454,7 @@
 
                         img.src = canvas.toDataURL("image/png");
                     };
-                    logo.src = "/assets/qr-logo.png";
+                    logo.src = "/logo.jpg";
                 } catch (e) {
                     container.textContent = "Ошибка генерации QR";
                 }
