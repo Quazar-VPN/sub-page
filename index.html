@@ -303,6 +303,89 @@
                 line-height: 1.5;
             }
 
+            /* ---- Subscription Status Pill ---- */
+            .sub-status {
+                display: flex;
+                justify-content: center;
+                margin-top: -8px;
+                margin-bottom: 20px;
+            }
+            .sub-status-pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 12px;
+                border-radius: 999px;
+                font-size: 12px;
+                font-weight: 500;
+                border: 1px solid var(--primary-border);
+                background: var(--primary-lighter);
+                color: var(--text-secondary);
+            }
+            .sub-status-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--primary);
+                box-shadow: 0 0 8px var(--primary);
+                flex-shrink: 0;
+            }
+            .sub-status-pill.warn {
+                border-color: rgba(245, 158, 11, 0.35);
+                background: rgba(245, 158, 11, 0.1);
+                color: #f59e0b;
+            }
+            .sub-status-pill.warn .sub-status-dot {
+                background: #f59e0b;
+                box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+            }
+            .sub-status-pill.danger {
+                border-color: var(--danger-border);
+                background: var(--danger-bg);
+                color: var(--danger-color);
+            }
+            .sub-status-pill.danger .sub-status-dot {
+                background: var(--danger-color);
+                box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+            }
+            .sub-status-sep {
+                opacity: 0.5;
+            }
+
+            /* ---- Subscription Inactive Banner ---- */
+            .sub-banner {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 14px 16px;
+                border-radius: var(--radius);
+                border: 1px solid var(--danger-border);
+                background: var(--danger-bg);
+                color: var(--danger-color);
+                margin-bottom: 20px;
+                margin-top: -8px;
+            }
+            .sub-banner svg {
+                width: 20px;
+                height: 20px;
+                flex-shrink: 0;
+                margin-top: 1px;
+            }
+            .sub-banner-body {
+                flex: 1;
+                min-width: 0;
+            }
+            .sub-banner-title {
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 2px;
+            }
+            .sub-banner-desc {
+                font-size: 12px;
+                line-height: 1.5;
+                opacity: 0.85;
+            }
+
             /* ---- Device Grid ---- */
             .device-grid {
                 display: grid;
@@ -1851,6 +1934,8 @@
                 html +=
                     "<p>Выберите устройство для настройки подключения</p></div>";
 
+                html += renderSubStatus();
+
                 html += '<div class="device-grid">';
                 mainDevices.forEach((key) => {
                     const p = PLATFORMS[key];
@@ -1884,6 +1969,8 @@
                 // Header
                 html += `<div class="view-header" style="margin-bottom:16px;">`;
                 html += `<h1>Настройка ${platform.name}</h1></div>`;
+
+                html += renderSubStatus();
 
                 // App selector (if >1 app)
                 if (platform.apps.length > 1) {
@@ -2160,6 +2247,61 @@
                 t.classList.add("show");
                 clearTimeout(t._timeout);
                 t._timeout = setTimeout(() => t.classList.remove("show"), 2500);
+            }
+
+            function pluralDays(n) {
+                const a = Math.abs(n);
+                const m10 = a % 10;
+                const m100 = a % 100;
+                if (m10 === 1 && m100 !== 11) return "день";
+                if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20))
+                    return "дня";
+                return "дней";
+            }
+
+            function renderSubStatus() {
+                const u = panelData?.response?.user;
+                if (!u) return "";
+                const isActive =
+                    u.isActive !== false && u.userStatus === "ACTIVE";
+                const daysLeft =
+                    typeof u.daysLeft === "number" ? u.daysLeft : null;
+
+                if (!isActive || (daysLeft !== null && daysLeft <= 0)) {
+                    const isExpired = daysLeft !== null && daysLeft <= 0;
+                    const title = isExpired
+                        ? "Срок подписки истёк"
+                        : "Подписка неактивна";
+                    const desc =
+                        "Подключение не будет работать до продления подписки.";
+                    return `<div class="sub-banner">${ICONS.warning}<div class="sub-banner-body"><div class="sub-banner-title">${title}</div><div class="sub-banner-desc">${desc}</div></div></div>`;
+                }
+
+                let dateStr = "";
+                if (u.expiresAt) {
+                    const d = new Date(u.expiresAt);
+                    if (!isNaN(d)) {
+                        dateStr =
+                            String(d.getDate()).padStart(2, "0") +
+                            "." +
+                            String(d.getMonth() + 1).padStart(2, "0") +
+                            "." +
+                            d.getFullYear();
+                    }
+                }
+
+                const parts = [];
+                if (dateStr) parts.push("До " + dateStr);
+                let tone = "ok";
+                if (daysLeft !== null && daysLeft <= 30) {
+                    parts.push(daysLeft + " " + pluralDays(daysLeft));
+                    if (daysLeft <= 7) tone = "warn";
+                }
+                if (parts.length === 0) return "";
+                const label = parts.join(
+                    ' <span class="sub-status-sep">·</span> ',
+                );
+                return `<div class="sub-status"><span class="sub-status-pill ${tone}"><span class="sub-status-dot"></span>${label}</span></div>`;
             }
 
             function esc(str) {
