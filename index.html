@@ -4,10 +4,10 @@
         <meta charset="UTF-8" />
         <meta
             name="viewport"
-            content="width=device-width, initial-scale=1.0, user-scalable=no"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         />
         <meta name="color-scheme" content="dark light" />
-        <meta name="theme-color" content="#0a0f1a" id="metaThemeColor" />
+        <meta name="theme-color" content="#060a14" id="metaThemeColor" />
         <link
             rel="apple-touch-icon"
             sizes="180x180"
@@ -213,7 +213,7 @@
                 justify-content: center;
                 padding: 16px;
                 -webkit-font-smoothing: antialiased;
-                overflow: hidden;
+                overflow-y: auto;
                 position: relative;
                 transition:
                     background 0.3s ease,
@@ -520,6 +520,10 @@
             .app-chip:hover {
                 border-color: var(--primary-border);
                 color: var(--text);
+            }
+            .app-chip:focus-visible {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px var(--primary-light);
             }
             .app-chip.active {
                 background: var(--chip-active-bg);
@@ -987,6 +991,11 @@
                 cursor: not-allowed;
                 filter: grayscale(0.4);
             }
+            .btn.btn-loading:disabled {
+                opacity: 1;
+                filter: none;
+                cursor: progress;
+            }
             .btn-spinner {
                 display: inline-block;
                 width: 16px;
@@ -1013,7 +1022,7 @@
                 font-size: 13px;
                 font-weight: 600;
                 margin-top: 8px;
-                animation: fadeIn 0.3s ease;
+                animation: bannerIn 0.3s ease;
             }
             [data-theme="light"] .tv-success-banner {
                 background: rgba(52, 199, 89, 0.08);
@@ -1031,13 +1040,13 @@
                 font-size: 13px;
                 font-weight: 600;
                 margin-top: 8px;
-                animation: fadeIn 0.3s ease;
+                animation: bannerIn 0.3s ease;
             }
             [data-theme="light"] .tv-error-banner {
                 background: rgba(255, 59, 48, 0.08);
                 color: #d70015;
             }
-            @keyframes fadeIn {
+            @keyframes bannerIn {
                 from {
                     opacity: 0;
                     transform: translateY(-4px);
@@ -1189,7 +1198,6 @@
             @media (max-width: 460px) {
                 body {
                     padding: 12px;
-                    overflow-y: auto;
                 }
                 .card {
                     padding: 20px;
@@ -1200,11 +1208,6 @@
                     right: -8px;
                     width: 48px;
                     height: 48px;
-                }
-            }
-            @media (min-width: 461px) {
-                body {
-                    overflow-y: auto;
                 }
             }
 
@@ -1984,7 +1987,7 @@
                         const iconHtml = iconUrl
                             ? `<img class="app-icon" src="${iconUrl}" alt="" loading="lazy">`
                             : '';
-                        html += `<span class="app-chip${active}" onclick="switchApp(${i})" role="button" tabindex="0">${iconHtml}${dot}${esc(a.name)}</span>`;
+                        html += `<button type="button" class="app-chip${active}" onclick="switchApp(${i})">${iconHtml}${dot}${esc(a.name)}</button>`;
                     });
                     html += "</div>";
                 }
@@ -2182,6 +2185,13 @@
                 if (btn) btn.disabled = input.value.length !== 5;
             }
 
+            function toBase64Utf8(str) {
+                const bytes = new TextEncoder().encode(str);
+                let bin = "";
+                for (const b of bytes) bin += String.fromCharCode(b);
+                return btoa(bin);
+            }
+
             async function sendTvCode() {
                 const input = document.getElementById("tvCodeInput");
                 const btn = document.getElementById("tvCodeBtn");
@@ -2190,13 +2200,12 @@
                 if (code.length !== 5) return;
 
                 btn.disabled = true;
-                btn.style.opacity = "1";
-                btn.style.filter = "none";
+                btn.classList.add("btn-loading");
                 btn.innerHTML = '<span class="btn-spinner"></span>';
                 result.innerHTML = "";
 
                 try {
-                    const b64 = btoa(subscriptionUrl);
+                    const b64 = toBase64Utf8(subscriptionUrl);
                     await fetch(
                         "https://check.happ.su/sendtv/" +
                             encodeURIComponent(code),
@@ -2208,16 +2217,16 @@
                         },
                     );
                     result.innerHTML =
-                        '<div class="tv-success-banner">✓ Подписка успешно отправлена на ваш телевизор</div>';
+                        '<div class="tv-success-banner">✓ Код отправлен. Проверьте экран телевизора</div>';
                     input.disabled = true;
+                    btn.textContent = "Отправлено";
                 } catch (e) {
                     result.innerHTML =
                         '<div class="tv-error-banner">Не удалось отправить. Проверьте код и попробуйте снова.</div>';
                     btn.disabled = false;
-                    btn.style.opacity = "";
-                    btn.style.filter = "";
+                    btn.classList.remove("btn-loading");
+                    btn.textContent = "Подключить";
                 }
-                btn.textContent = "Подключить";
             }
 
             function showQrModal() {
